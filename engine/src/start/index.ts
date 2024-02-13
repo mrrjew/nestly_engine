@@ -9,6 +9,7 @@ import { expressMiddleware } from "@apollo/server/express4";
 
 import initDb from "../models";
 import initServices from "../services";
+import log from "../utils/log";
 
 
 export default async function start(config: Config) {
@@ -28,8 +29,8 @@ export default async function start(config: Config) {
     });
 
     app.listen(config.app.port, () => {
-      console.log(
-        `🚀  Server ready at http://localhost:${config.app.port}/graphql`
+      log.info(
+        `Server ready at http://localhost:${config.app.port}/graphql`
       );
     }); 
   } catch (err) {

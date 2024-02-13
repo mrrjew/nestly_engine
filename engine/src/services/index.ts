@@ -1,13 +1,12 @@
-import { IAppContext } from "../types/app";
-import UserService from "./user";
+import { IAppContext } from '../types/app';
+import UserService from './user/user';
 
 export interface IServices {
-  UserService: UserService
+  UserService: UserService;
 }
 
-export default async function initServices(context:IAppContext):Promise<IServices>{
-
+export default async function initServices(context: IAppContext): Promise<IServices> {
   return {
-    UserService: new UserService(context)
-  }
-} 
+    UserService: new UserService(context),
+  };
+}

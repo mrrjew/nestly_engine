@@ -1,23 +1,23 @@
 import { connect } from 'mongoose';
 import { Config } from '../config';
-import User from './user';
+import User from './user/user';
+import log from '../utils/log';
 
 export interface IModels {
-  findById: any;
   User: typeof User;
 }
 
 export default async function initDB(config: Config['db']): Promise<IModels> {
   try {
     await connect(config.uri, { autoIndex: true });
-    console.log('Connected to database');
+    log.info("Connected to database successfully")
 
     await User.createCollection();
 
     return {
-        User
+      User,
     };
   } catch (e) {
-    return `Error while connecting to database :: ${e}`;
+    throw new Error(`Error while connecting to database :: ${e}`);
   }
 }

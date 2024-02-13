@@ -9,17 +9,24 @@ const config: Config = {
     env: "production",
   },
   auth: {
-    secret: process.env.JWT_SECRET || "",
-    token_expiry: process.env.TOKEN_EXPIRY || "",
-  },
+    accessTokenPrivateKey : process.env.ACCESS_TOKEN_PRIVATE_KEY,
+    accessTokenPublicKey : process.env.ACCESS_TOKEN_PUBLIC_KEY,
+    refreshTokenPrivateKey : process.env.REFRESH_TOKEN_PRIVATE_KEY,
+    refreshTokenPublicKey : process.env.REFRESH_TOKEN_PUBLIC_KEY,
+},
   db: {
     uri: process.env.PROD_MONGO_URI || "",
   },
-  mail: {
-    username: process.env.MAILGUN_USERNAME || "",
-    key: process.env.MAILGUN_API_KEY || "",
-    domain: process.env.MAIL_DOMAIN || "",
+  smtp: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS,
+    host: process.env.MAIL_HOST,
+    port: process.env.MAIL_PORT ,
+    secure: process.env.MAIL_SECURE || true
   },
+  logger: {
+    level: process.env.LOGGER_LEVEL
+  }
 };
 
 export default config;

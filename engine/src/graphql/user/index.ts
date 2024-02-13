@@ -1,6 +1,6 @@
 import {default as typeDefs} from  "./typeDefs"
 
-export default userSchema(context){
+export default function userSchema(context){
     return {
         typeDefs
     }

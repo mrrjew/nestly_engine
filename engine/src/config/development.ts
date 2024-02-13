@@ -1,25 +1,33 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
-import { Config } from ".";
+import { Config } from '.';
 
 const config: Config = {
   app: {
-    name: "nestly",
+    name: 'nestly',
     port: 800,
-    env: "development",
+    env: 'development',
   },
   auth: {
-    secret: process.env.JWT_SECRET || "",
-    token_expiry: "1d",
-  },
+    accessTokenPrivateKey : process.env.ACCESS_TOKEN_PRIVATE_KEY,
+    accessTokenPublicKey : process.env.ACCESS_TOKEN_PUBLIC_KEY,
+    refreshTokenPrivateKey : process.env.REFRESH_TOKEN_PRIVATE_KEY,
+    refreshTokenPublicKey : process.env.REFRESH_TOKEN_PUBLIC_KEY,
+},
   db: {
-    uri: process.env.DEV_MONGO_URI || "",
+    uri: process.env.DEV_MONGO_URI || '',
   },
-  mail: {
-    username: process.env.MAILGUN_USERNAME || "",
-    key: process.env.MAILGUN_API_KEY || "",
-    domain: process.env.MAIL_DOMAIN || "",
+  smtp: {
+    user: process.env.DEV_MAIL_USER,
+    pass: process.env.DEV_MAIL_PASS,
+    host: process.env.DEV_MAIL_HOST,
+    port: process.env.DEV_MAIL_PORT ,
+    secure: process.env.DEV_MAIL_SECURE || false
   },
+    logger: {
+    level: process.env.LOGGER_LEVEL
+  },
+  
 };
 
 export default config;

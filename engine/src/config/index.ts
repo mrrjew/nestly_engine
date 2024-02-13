@@ -1,11 +1,11 @@
-import dotenv from "dotenv";
-import development from "./development";
-import production from "./production";
+import dotenv from 'dotenv';
+import development from './development';
+import production from './production';
 
 export interface Config {
   app: {
     name: string;
-    env: "production" | "development" | "test";
+    env: 'production' | 'development' | 'test';
     port: string | number;
   };
 
@@ -13,17 +13,23 @@ export interface Config {
     uri: string;
   };
   auth: {
-    secret: string;
-    token_expiry: string;
+    accessTokenPrivateKey : string
+    accessTokenPublicKey : string
+    refreshTokenPrivateKey : string
+    refreshTokenPublicKey : string
+};
+  smtp: {
+    user: string;
+    pass: string;
+    host: string;
+    port: string;
+    secure: boolean | string;
   };
-  mail: {
-    key: string;
-    domain: string;
-    username: string;
+  logger: {
+    level: string;
   };
 }
 
-const config =
-  process.env.NODE_ENV === "development" ? development : production;
+const config = process.env.NODE_ENV === 'development' ? development : production;
 
 export default config;
