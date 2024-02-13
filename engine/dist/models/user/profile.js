@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const mongoose_1 = tslib_1.__importStar(require("mongoose"));
 const userProfileSchema = new mongoose_1.default.Schema({
-    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    userId: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "User", required: true },
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
     phoneNumber: { type: Number, required: true },

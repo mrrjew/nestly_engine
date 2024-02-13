@@ -27,6 +27,13 @@ export interface IUserVerificationInput {
   verificationCode: string;
 }
 
+export interface IUserResetPasswordInput {
+  id: Types.ObjectId;
+  passwordResetCode: string
+  newPassword: string
+}
+
+
 export interface IUserDocument extends IUser, Document {
   _id: Types.ObjectId;
   validatePassword(password: string): Promise<boolean>;

@@ -5,9 +5,9 @@ const tslib_1 = require("tslib");
 const jsonwebtoken_1 = tslib_1.__importDefault(require("jsonwebtoken"));
 const config_1 = tslib_1.__importDefault(require("../config"));
 const AccesskeyName = Object.assign({}, config_1.default.auth);
-function signJwt(id, keyName, options) {
+function signJwt(object, keyName, options) {
     const signingKey = Buffer.from(AccesskeyName[`${keyName}`], 'base64').toString('ascii');
-    return jsonwebtoken_1.default.sign({ id }, signingKey, Object.assign(Object.assign({}, (options && options)), { algorithm: 'RS256' }));
+    return jsonwebtoken_1.default.sign(object, signingKey, Object.assign(Object.assign({}, (options && options)), { algorithm: 'RS256' }));
 }
 exports.signJwt = signJwt;
 function verifyJwt(token, keyName) {

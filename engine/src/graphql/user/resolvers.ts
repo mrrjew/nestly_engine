@@ -25,15 +25,30 @@ export default function (appContext: IAppContext) {
         return user;
       },
 
-      verifyUser: async function(_:any,args:any) {
-        const verified = await appContext.services.UserService.verifyUser(args.VerifyUserInput)
-        return verified
+      verifyUser: async function (_: any, args: any) {
+        const verified = await appContext.services.UserService.verifyUser(args.VerifyUserInput);
+        return verified;
       },
 
-      forgotPassword: async function(_:any,args:any){
-        const forgotPassword = await appContext.services.UserService.forgotPassword(args.ForgotPasswordInput)
-        return forgotPassword
-      }
+      forgotPassword: async function (_: any, args: any) {
+        const forgotPassword = await appContext.services.UserService.forgotPassword(args.ForgotPasswordInput);
+        return forgotPassword;
+      },
+
+      resetPassword: async function (_: any, args: any) {
+        const resetPassword = await appContext.services.UserService.resetPassword(args.ResetPasswordInput);
+        return resetPassword;
+      },
+
+      createUserSession: async function (_: any, args: any) {
+        const token = await appContext.services.UserSessionService.createUserSession(args.CreateUserSessionInput);
+        return token
+      },
+      // refreshToken: async function(_: any, args:any) {
+      //   const accessToken = await appContext.services.UserSessionService.refreshAccessToken(args.RefreshTokenInput.token);
+      //   return accessToken;
+      // }
+      
     },
   };
 }

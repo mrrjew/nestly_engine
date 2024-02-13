@@ -22,6 +22,7 @@
     "graphql": "^16.7.1",
     "graphql-tag": "^2.12.6",
     "jsonwebtoken": "^9.0.0",
+    "lodash": "^4.17.21",
     "mailgun.js": "^9.2.1",
     "mongoose": "^7.2.2",
     "nodemailer": "^6.9.9",
@@ -54,8 +55,8 @@
   },
   "scripts": {
     "build": "tsc --outDir dist",
-    "prod": "npm run build & node dist/index.js",
-    "dev": "npm run build & nodemon src/index.ts",
+    "prod": "node dist/index.js",
+    "dev": "nodemon src/index.ts",
     "lint": "eslint src --fix",
     "prettier": "prettier src --fix"
   }

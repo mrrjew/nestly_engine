@@ -6,16 +6,15 @@ import userSchema from './user';
 interface MyContext {
   token?: String;
   user?: any;
+  req?: any;
 }
 
 export default function initGraph(appContext: IAppContext): ApolloServer {
-  const schema = buildSubgraphSchema([
-    userSchema(appContext)
-  ]);
+  const schema = buildSubgraphSchema([userSchema(appContext)]);
 
   const graph = new ApolloServer<MyContext>({
-    schema,
-  })
+    schema
+  });
 
-  return graph
+  return graph;
 }

@@ -24,10 +24,34 @@ function default_1(appContext) {
             },
         },
         Mutation: {
-            createuser: function (_, args, context) {
+            createUser: function (_, args) {
                 return tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    const { user } = yield appContext.services.UserService.registerUser(args.inputs);
+                    const { user } = yield appContext.services.UserService.registerUser(args.CreateUnverifiedUserInput);
                     return user;
+                });
+            },
+            verifyUser: function (_, args) {
+                return tslib_1.__awaiter(this, void 0, void 0, function* () {
+                    const verified = yield appContext.services.UserService.verifyUser(args.VerifyUserInput);
+                    return verified;
+                });
+            },
+            forgotPassword: function (_, args) {
+                return tslib_1.__awaiter(this, void 0, void 0, function* () {
+                    const forgotPassword = yield appContext.services.UserService.forgotPassword(args.ForgotPasswordInput);
+                    return forgotPassword;
+                });
+            },
+            resetPassword: function (_, args) {
+                return tslib_1.__awaiter(this, void 0, void 0, function* () {
+                    const resetPassword = yield appContext.services.UserService.resetPassword(args.ResetPasswordInput);
+                    return resetPassword;
+                });
+            },
+            createUserSession: function (_, args) {
+                return tslib_1.__awaiter(this, void 0, void 0, function* () {
+                    const tokens = yield appContext.services.UserSessionService.createUserSession(args.CreateUserSessionInput);
+                    return tokens;
                 });
             },
         },

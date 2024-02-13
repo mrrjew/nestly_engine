@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import { Config } from '../../config';
 import IService, { IAppContext } from '../../types/app';
-import { IUserAuth, IUserInput, IUserVerificationInput } from '../../types/user/user';
+import { IUserAuth, IUserInput, IUserResetPasswordInput, IUserVerificationInput } from '../../types/user/user';
 import sendEmail from '../../utils/mailer';
 import log from '../../utils/log';
 
@@ -86,7 +86,26 @@ export default class UserService extends IService {
 
     log.debug(`Password reset code sent to ${user.email}`);
 
-    const message = "password reset code sent"
-    return message
+    const message = 'password reset code sent';
+    return message;
+  }
+
+  async resetPassword(ResetPasswordInput: IUserResetPasswordInput) {
+    const { id, passwordResetCode, newPassword } = ResetPasswordInput;
+
+    const user = await this.models.User.findById(id);
+
+    if (!user || !user.passwordResetCode || user.passwordResetCode !== passwordResetCode) {
+      throw new Error('Could not reset password');
+    }
+
+    user.passwordResetCode = null;
+
+    user.password = newPassword;
+
+    await user.save();
+
+    const message = 'Successfully updated password';
+    return message;
   }
 }

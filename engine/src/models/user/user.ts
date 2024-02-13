@@ -3,6 +3,14 @@ import { IUserDocument } from '../../types/user/user';
 import { v4 } from 'uuid';
 import bcrypt from 'bcryptjs';
 
+export const privateField = [
+  "password",
+  "__v",
+  "verificationCode",
+  "passwordResetCode",
+  "verified"
+]
+
 const userSchema = new Schema<IUserDocument>({
   username: { type: String, required: true },
   email: { type: String, required: true },
@@ -26,7 +34,7 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.methods.validatePassword = async function(pass:string){
-  return bcrypt.compare(this.password,pass)
+  return bcrypt.compare(pass,this.password)
 };
 
 const User = model('User', userSchema);

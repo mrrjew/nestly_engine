@@ -11,6 +11,7 @@ import initDb from "../models";
 import initServices from "../services";
 import log from "../utils/log";
 import initGraph from "../graphql";
+import { setContext } from "../middlewares/context";
 
 
 export default async function start(config: Config) {
@@ -36,7 +37,16 @@ export default async function start(config: Config) {
     });
 
     //apollo server express middleware
-    app.use("/graphql",cors<cors.CorsRequest>(),json(), expressMiddleware(graph))
+
+    app.use(
+      "/graphql",
+      cors<cors.CorsRequest>(),
+      json(),
+      expressMiddleware(graph, {
+        context: setContext,
+      })
+    );
+
 
     app.listen(config.app.port, () => {
       log.info(

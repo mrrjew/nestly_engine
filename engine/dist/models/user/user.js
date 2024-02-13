@@ -1,16 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.privateField = void 0;
 const tslib_1 = require("tslib");
 const mongoose_1 = require("mongoose");
 const uuid_1 = require("uuid");
 const bcryptjs_1 = tslib_1.__importDefault(require("bcryptjs"));
+exports.privateField = [
+    "password",
+    "__v",
+    "verificationCode",
+    "passwordResetCode",
+    "verified"
+];
 const userSchema = new mongoose_1.Schema({
     username: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
     type: { type: String, enum: ['OWNER', 'AGENT', 'RENTER'], required: true },
     verificationCode: { type: String, required: true, default: () => (0, uuid_1.v4)() },
-    passwordResetCode: { type: String, required: false },
+    passwordResetCode: { type: String },
     verified: { type: Boolean, required: true, default: false }
 });
 userSchema.pre('save', function (next) {
