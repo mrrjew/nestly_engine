@@ -1,41 +1,57 @@
 import { gql } from 'graphql-tag';
 
 const typeDefs = gql`
-    Query user {
-        user: User
-    }
+  type Query {
+    user: VerifiedUser
+  }
 
-  type User {
+  type VerifiedUser @key(fields: _id) {
+    _id: ID!
     username: String!
     email: String!
     password: String!
-    profile: UserProfile
-    type: Type
+    type: Type!
+    verificationCode: String!
+    verified: Boolean
   }
 
-  enum Type{
-    OWNER 
+  type UnVerifiedUser @key(fields: _id) {
+    _id: ID!
+    username: String!
+    email: String!
+    password: String!
+    type: Type!
+    verified: Boolean
+  }
+
+  enum Type {
+    OWNER
     AGENT
     RENTER
   }
 
-  type UserProfile {
-    firstname: String!
-    lastname: String!
-    phoneNumber: Int!
-    address: String!
-  }
-
-  input createUserInput {
+  input CreateUnverifiedUserInput {
     username: String!
     email: String!
     password: String!
-    profile: UserProfile
+    type: Type!
+    verified: Boolean
   }
 
-  Mutation {
-    createUser(input: CreateUserInput!):User
+  input VerifyUserInput {
+    id: ID!
+    verificationCode: String
+  }
+
+  input ForgotPasswordInput {
+    email :String!
+  }
+
+  type Mutation {
+    createUser($CreateUnverifiedUserInput: CreateUnverifiedUserInput!): UnVerifiedUser
+    verifyUser($VerifyUserInput: VerifyUserInput!): Boolean
+    forgotPassword($ForgotPasswordInput: ForgotPasswordInput): String
   }
 `;
 
-export default typeDefs
+export default typeDefs;

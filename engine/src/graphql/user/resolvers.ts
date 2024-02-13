@@ -20,11 +20,20 @@ export default function (appContext: IAppContext) {
     },
 
     Mutation: {
-      createuser: async function (_: any, args: any, context: any) {
-        const { user, token } = await appContext.services.UserService.registerUser(args.inputs);
-
-        return {user,token};
+      createUser: async function (_: any, args: any) {
+        const { user } = await appContext.services.UserService.registerUser(args.CreateUnverifiedUserInput);
+        return user;
       },
+
+      verifyUser: async function(_:any,args:any) {
+        const verified = await appContext.services.UserService.verifyUser(args.VerifyUserInput)
+        return verified
+      },
+
+      forgotPassword: async function(_:any,args:any){
+        const forgotPassword = await appContext.services.UserService.forgotPassword(args.ForgotPasswordInput)
+        return forgotPassword
+      }
     },
   };
 }

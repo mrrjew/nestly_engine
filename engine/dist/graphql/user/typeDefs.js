@@ -3,15 +3,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_tag_1 = require("graphql-tag");
 const typeDefs = (0, graphql_tag_1.gql) `
     Query user {
-        user: User
+        user: VerifiedUser
     }
 
-  type User {
+  type VerifiedUser @key(fields: _id){
+    _id: ID!
     username: String!
     email: String!
     password: String!
-    profile: UserProfile
-    type: Type
+    type: Type!
+    verificationCode: String!
+    passwordResetCode: String
+    verified: boolean
+  }
+
+  type UnVerifiedUser @key(fields: _id){
+    _id: ID!
+    username: String!
+    email: String!
+    password: String!
+    type: Type!
+    passwordResetCode: String
+    verified: boolean
   }
 
   enum Type{
@@ -20,22 +33,17 @@ const typeDefs = (0, graphql_tag_1.gql) `
     RENTER
   }
 
-  type UserProfile {
-    firstname: String!
-    lastname: String!
-    phoneNumber: Int!
-    address: String!
-  }
-
-  input createUserInput {
+  input createUnVerifiedUserInput {
     username: String!
     email: String!
     password: String!
-    profile: UserProfile
+    type: Type!
+    passwordResetCode: String
+    verified: boolean
   }
 
   Mutation {
-    createUser(input: CreateUserInput!):User
+    createUser(input: CreateUnverifiedUserInput!):UnverifiedUser
   }
 `;
 exports.default = typeDefs;

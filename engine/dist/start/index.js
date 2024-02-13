@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const express_1 = tslib_1.__importDefault(require("express"));
-const mailer_1 = tslib_1.__importDefault(require("../utils/mailer"));
 const models_1 = tslib_1.__importDefault(require("../models"));
 const services_1 = tslib_1.__importDefault(require("../services"));
+const log_1 = tslib_1.__importDefault(require("../utils/log"));
 function start(config) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         try {
@@ -18,9 +18,8 @@ function start(config) {
             app.use("/healthcheck", (req, res) => {
                 res.status(200).send("All is green!!!");
             });
-            (0, mailer_1.default)();
             app.listen(config.app.port, () => {
-                console.log(`🚀  Server ready at http://localhost:${config.app.port}/graphql`);
+                log_1.default.info(`Server ready at http://localhost:${config.app.port}/graphql`);
             });
         }
         catch (err) {

@@ -1,10 +1,11 @@
 import jwt from 'jsonwebtoken';
 import config from '../config';
+import { Types } from 'mongoose';
 
 const AccesskeyName = { ...config.auth };
 
 export function signJwt(
-  id: string,
+  id: Types.ObjectId,
   keyName: 'accessTokenPrivateKey' | 'refreshTokenPrivateKey',
   options?: jwt.SignOptions | undefined
 ) {

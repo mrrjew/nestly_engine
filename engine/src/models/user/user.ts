@@ -9,7 +9,8 @@ const userSchema = new Schema<IUserDocument>({
   password: { type: String, required: true },
   type: { type: String, enum: ['OWNER', 'AGENT', 'RENTER'], required: true },
   verificationCode: { type: String, required: true, default: () => v4() },
-  passwordResetCode: { type: String, required: false },
+  passwordResetCode: { type: String},
+  verified: {type: Boolean, required: true, default: false}
 });
 
 userSchema.pre('save', async function (next) {
@@ -24,8 +25,8 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-userSchema.methods.validatePassword = async (password:string) => {
-  return bcrypt.compare(this.password,password)
+userSchema.methods.validatePassword = async function(pass:string){
+  return bcrypt.compare(this.password,pass)
 };
 
 const User = model('User', userSchema);

@@ -1,7 +1,9 @@
-import {default as typeDefs} from  "./typeDefs"
+import {default as resolvers} from "./resolvers"
+import {default as typeDefs} from "./typeDefs"
 
-export default function userSchema(context){
+export default function userSchema(appContext) {
     return {
-        typeDefs
+        typeDefs,
+        resolvers: resolvers(appContext)
     }
 }

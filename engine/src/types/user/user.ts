@@ -1,14 +1,13 @@
 import { Model, Types, Document } from 'mongoose';
 
-
 export interface IUser {
   username: string;
   email: string;
   password: string;
   type: 'OWNER' | 'AGENT' | 'RENTER';
-  verificationCode: string,
-  passwordResetCode?: string,
-  verified: boolean
+  verificationCode: string;
+  passwordResetCode?: string;
+  verified: boolean;
 }
 
 export interface IUserAuth {
@@ -20,12 +19,17 @@ export interface IUserInput {
   email: string;
   password: string;
   type: string;
-  verified: boolean
+  verified: boolean;
+}
+
+export interface IUserVerificationInput {
+  id: Types.ObjectId;
+  verificationCode: string;
 }
 
 export interface IUserDocument extends IUser, Document {
   _id: Types.ObjectId;
-  comparePasswords(password: string): Promise<boolean>;
+  validatePassword(password: string): Promise<boolean>;
   createdAt: Date;
   updatedAt: Date;
 }

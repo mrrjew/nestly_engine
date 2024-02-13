@@ -26,8 +26,8 @@ function default_1(appContext) {
         Mutation: {
             createuser: function (_, args, context) {
                 return tslib_1.__awaiter(this, void 0, void 0, function* () {
-                    const { user, token } = yield appContext.services.UserService.registerUser(args.inputs);
-                    return { user, token };
+                    const { user } = yield appContext.services.UserService.registerUser(args.inputs);
+                    return user;
                 });
             },
         },

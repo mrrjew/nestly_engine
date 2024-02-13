@@ -11,10 +11,11 @@ const userSchema = new mongoose_1.Schema({
     type: { type: String, enum: ['OWNER', 'AGENT', 'RENTER'], required: true },
     verificationCode: { type: String, required: true, default: () => (0, uuid_1.v4)() },
     passwordResetCode: { type: String, required: false },
+    verified: { type: Boolean, required: true, default: false }
 });
-userSchema.pre("save", function (next) {
+userSchema.pre('save', function (next) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
-        if (!this.isModified("password"))
+        if (!this.isModified('password'))
             return next();
         try {
             const salt = yield bcryptjs_1.default.genSalt(10);
@@ -27,6 +28,11 @@ userSchema.pre("save", function (next) {
         }
     });
 });
+userSchema.methods.validatePassword = function (pass) {
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return bcryptjs_1.default.compare(this.password, pass);
+    });
+};
 const User = (0, mongoose_1.model)('User', userSchema);
 exports.default = User;
 //# sourceMappingURL=user.js.map
