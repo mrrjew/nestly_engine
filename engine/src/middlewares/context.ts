@@ -1,15 +1,20 @@
-import { IUser } from "../types/user/user";
-import { verifyJwt } from "../utils/token";
+import { IUser } from '../types/user/user';
+import { verifyJwt } from '../utils/token';
 
 export const setContext = async ({ req }) => {
-
   try {
+    const token = req.headers.authorization || '';
 
-   return {req}
+    if (token) {
+      const decoded:any = await verifyJwt(token, 'accessTokenPublicKey');
 
+      const id = decoded._id;
+
+      const user = { _id: id };
+
+      return {user};
+    }
   } catch (err) {
-
     console.log(err);
-
   }
 };

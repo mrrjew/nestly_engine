@@ -8,16 +8,17 @@ const createSession = async function ({ userId }: { userId: Types.ObjectId }) {
   return await Session.create({ userId });
 };
 
-// export async function signRefreshToken({ userId }: { userId: Types.ObjectId }) {
-//   const session = createSession({ userId });
+export async function signRefreshToken({ userId }: { userId: Types.ObjectId }) {
+  const session = createSession({ userId });
 
-//   const payload = { session: (await session)._id };
-//   const refreshToken = signJwt(payload, 'refreshTokenPrivateKey', {
-//     expiresIn: '1y',
-//   });
+  const payload = { session: (await session)._id };
+  const refreshToken = signJwt(payload, 'refreshTokenPrivateKey', {
+    expiresIn: '1y',
+    algorithm:'RS256'
+  });
 
-//   return refreshToken;
-// }
+  return refreshToken;
+}
 
 export async function signAccessToken(user: any) {
   const payload = omit(user.toJSON(), privateField);

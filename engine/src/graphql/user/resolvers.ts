@@ -10,7 +10,7 @@ export default function (appContext: IAppContext) {
     Query: {
       user: async function (_: any, {}, context: any) {
         try {
-          const user = await appContext.models.User.findOne(context.user._id);
+          const user = await appContext.models.User.findById(context.user._id);
 
           return user;
         } catch (err) {
@@ -39,16 +39,18 @@ export default function (appContext: IAppContext) {
         const resetPassword = await appContext.services.UserService.resetPassword(args.ResetPasswordInput);
         return resetPassword;
       },
-
+      loginUser: async function(_:any,args:any) {
+        const user = await appContext.services.UserService.loginUser(args.LoginUserInput)
+        return user
+      },
       createUserSession: async function (_: any, args: any) {
         const token = await appContext.services.UserSessionService.createUserSession(args.CreateUserSessionInput);
         return token
       },
-      // refreshToken: async function(_: any, args:any) {
-      //   const accessToken = await appContext.services.UserSessionService.refreshAccessToken(args.RefreshTokenInput.token);
-      //   return accessToken;
-      // }
-      
+      refreshToken: async function(_: any, args:any) {
+        const accessToken = await appContext.services.UserSessionService.refreshAccessToken(args.RefreshTokenInput.token);
+        return accessToken;
+      }
     },
   };
 }

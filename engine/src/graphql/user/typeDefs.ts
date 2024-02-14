@@ -29,9 +29,14 @@ const typeDefs = gql`
     AGENT
     RENTER
   }
-  
+
   type UserSession {
-    accessToken : String!
+    accessToken: String!
+    refreshToken: String!
+  }
+
+  type RefreshToken {
+    accessToken: String!
   }
 
   input CreateUnverifiedUserInput {
@@ -48,11 +53,11 @@ const typeDefs = gql`
   }
 
   input ForgotPasswordInput {
-    email :String!
+    email: String!
   }
 
   input ResetPasswordInput {
-    id:ID!
+    id: ID!
     passwordResetCode: String!
     newPassword: String!
   }
@@ -65,11 +70,22 @@ const typeDefs = gql`
     type: Type!
     verified: Boolean
   }
-  
+
+  input RefreshTokenInput {
+    token: String!
+  }
+
+  input LoginUserInput {
+    email: String!
+    password: String!
+  }
+
   type Mutation {
     createUser(CreateUnverifiedUserInput: CreateUnverifiedUserInput!): UnVerifiedUser
     verifyUser(VerifyUserInput: VerifyUserInput!): Boolean
+    loginUser(LoginUserInput: LoginUserInput!): VerifiedUser
     createUserSession(CreateUserSessionInput: CreateUserSessionInput!): UserSession
+    refreshToken(RefreshTokenInput: RefreshTokenInput!): RefreshToken
     forgotPassword(ForgotPasswordInput: ForgotPasswordInput): String
     resetPassword(ResetPasswordInput: ResetPasswordInput): String
   }

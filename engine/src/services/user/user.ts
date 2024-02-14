@@ -108,4 +108,25 @@ export default class UserService extends IService {
     const message = 'Successfully updated password';
     return message;
   }
+
+  async loginUser(LoginUserInput:any){
+    const {email,password} = LoginUserInput
+
+    const user = await this.models.User.findOne({email})
+    if(!user){
+      throw new Error("user not found")
+    }
+
+    try{
+      const valid = await user.validatePassword(password)
+      if(!valid){
+        throw new Error("password incorrect")
+      }
+    }catch(e){
+      throw new Error(e)
+    }
+
+
+    return user
+  }
 }
