@@ -5,7 +5,7 @@ const userProfileSchema = new mongoose.Schema<IUserProfile>({
     userId: {type: mongoose.Schema.Types.ObjectId, ref:"User", required: true},
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
-    phoneNumber: { type: Number, required: true },
+    phoneNumber: { type: String, required: true },
     address: { type: String, required: true },
   });
 

@@ -12,8 +12,8 @@ export default class UserService extends IService {
 
   async registerUser(CreateUnverifiedUserInput: IUserInput): Promise<IUserAuth> {
     try {
-      const _user = await this.models.User.find({ email: CreateUnverifiedUserInput.email });
-      if (_user.length) throw new Error('User already exists');
+      const _user = await this.models.User.findOne({ email: CreateUnverifiedUserInput.email });
+      if (_user) throw new Error('User already exists');
 
       const user = new this.models.User({ ...CreateUnverifiedUserInput });
       await user.save();
@@ -33,28 +33,33 @@ export default class UserService extends IService {
     }
   }
 
-  async verifyUser(VerifyUserInput: IUserVerificationInput) {
+  async verifyUser(VerifyUserInput: IUserVerificationInput): Promise<boolean> {
     const { id, verificationCode } = VerifyUserInput;
+    try {
+      // Find the user by Id
+      const user = await this.models.User.findById(id);
 
-    // find the user by Id
-    const user = await this.models.User.findById(id);
+      if (!user) {
+        throw new Error('User not found');
+      }
 
-    if (!user) {
-      throw new Error('User not found');
-    }
+      // Check if the user is already verified
+      if (user.verified) {
+        throw new Error('User is already verified');
+      }
 
-    // check to see if they are already verified
-    if (user.verified) {
-      throw new Error('User is already verified');
-    }
+      // Check if verificationCode matches
+      if (user.verificationCode !== verificationCode) {
+        throw new Error('Invalid verification code');
+      }
 
-    // check to see if verificationCode matches
-    if (user.verificationCode === verificationCode) {
+      // Set verified to true and save user
       user.verified = true;
-
       await user.save();
 
       return true;
+    } catch (e) {
+      throw new Error(`Error validating user: ${e}`);
     }
   }
 
@@ -74,6 +79,7 @@ export default class UserService extends IService {
     const passwordResetCode = v4();
 
     user.passwordResetCode = passwordResetCode;
+    console.log(passwordResetCode);
 
     await user.save();
 
@@ -94,8 +100,10 @@ export default class UserService extends IService {
     const { id, passwordResetCode, newPassword } = ResetPasswordInput;
 
     const user = await this.models.User.findById(id);
+    console.log('passcode', user.passwordResetCode);
+    console.log('payload', passwordResetCode);
 
-    if (!user || !user.passwordResetCode || user.passwordResetCode !== passwordResetCode) {
+    if (!user || user.passwordResetCode !== passwordResetCode) {
       throw new Error('Could not reset password');
     }
 
@@ -109,24 +117,38 @@ export default class UserService extends IService {
     return message;
   }
 
-  async loginUser(LoginUserInput:any){
-    const {email,password} = LoginUserInput
+  async loginUser(LoginUserInput: any) {
+    const { email, password } = LoginUserInput;
 
-    const user = await this.models.User.findOne({email})
-    if(!user){
-      throw new Error("user not found")
+    const user = await this.models.User.findOne({ email });
+    if (!user) {
+      throw new Error('user not found');
     }
 
-    try{
-      const valid = await user.validatePassword(password)
-      if(!valid){
-        throw new Error("password incorrect")
+    try {
+      const valid = await user.validatePassword(password);
+      if (!valid) {
+        throw new Error('password incorrect');
       }
-    }catch(e){
-      throw new Error(e)
+    } catch (e) {
+      throw new Error(e);
     }
 
+    return user;
+  }
 
-    return user
+  async deleteUser(id:any) {
+    const user = await this.models.User.findById(id);
+
+    if (!user) {
+      throw new Error('User does not exist');
+    }
+
+    try {
+      await this.models.User.findByIdAndDelete(id);
+      return `Deleted user successfully`;
+    } catch (e) {
+      throw new Error(`Error deleting user`);
+    }
   }
 }

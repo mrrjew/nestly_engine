@@ -4,7 +4,13 @@ export interface IUserProfile {
   userId: Types.ObjectId;
   firstname: string;
   lastname: string;
-  phoneNumber: number;
+  phoneNumber: string;
+  address: string;
+}
+export interface IUserProfileInput {
+  firstname: string;
+  lastname: string;
+  phoneNumber: string;
   address: string;
 }
 
