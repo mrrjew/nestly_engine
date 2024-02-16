@@ -27,6 +27,14 @@ export default function (appContext: IAppContext) {
           throw new Error(`Error getting user in graphql: ${e}`);
         }
       },
+      getAllUsers: async function () {
+        const allUsers = appContext.models.User.find().exec();
+        return allUsers;
+      },
+      getAllVerifiedUsers: async function () {
+        const verifiedUsers = appContext.models.User.find({ verified: true }).exec();
+        return verifiedUsers;
+      },
 
       getUsersByType: async function (_: any) {
         try {
@@ -39,10 +47,28 @@ export default function (appContext: IAppContext) {
             },
           ]);
 
-          console.log(groupedUsers)
           return groupedUsers;
         } catch (e) {
           throw new Error(`Error grouping users: ${e}`);
+        }
+      },
+      getRecentUsers: async function (_: any) {
+        try {
+          const currentDate = new Date();
+
+          const oneMonthAgo = new Date(currentDate);
+          oneMonthAgo.setMonth(currentDate.getMonth() - 1);
+
+          const recentUsers = await appContext.models.User.aggregate([
+            {
+              $match: {
+                createdAt: { $gte: oneMonthAgo, $lte: currentDate },
+              },
+            },
+          ]);
+          return recentUsers;
+        } catch (e) {
+          throw new Error(`Error getting recently registered users`);
         }
       },
 

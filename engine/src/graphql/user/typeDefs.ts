@@ -4,7 +4,10 @@ const typeDefs = gql`
   type Query {
     user: VerifiedUser
     getUserProfile: UserProfile
-    getUserByType:[UserGroup]
+    getUsersByType:[UserGroup]
+    getRecentUsers:[VerifiedUser]
+    getAllUsers:[UnVerifiedUser]
+    getAllVerifiedUsers:[VerifiedUser]
     getOverallUserRating: UserAllRating
     getAllUserSettings: UserSettings
   }

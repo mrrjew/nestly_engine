@@ -4,7 +4,9 @@ import { IUserSessionDocument, IUserSessionModel } from "../../types/user/sessio
 const sessionSchema = new Schema<IUserSessionDocument>({
     userId: {type: Schema.Types.ObjectId, ref:"user", required:true},
     valid: {type: Boolean, required:true, default:true}
-})
+}, {
+    timestamps: true
+  })
 
 const Session = model("session",sessionSchema)
 

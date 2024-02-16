@@ -7,6 +7,8 @@ const ratingSchema = new mongoose.Schema<IUserRating>({
   criteria: { type: String, required: true }, // Criteria for the rating (e.g., professionalism, communication)
   score: { type: Number, required: true, min: 1, max: 5 }, // Rating score (1 to 5)
   comment: { type: String }, // Optional comment
+}, {
+  timestamps: true
 });
 
 const UserRating = mongoose.model('rating', ratingSchema);

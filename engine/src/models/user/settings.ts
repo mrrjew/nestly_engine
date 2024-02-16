@@ -21,7 +21,9 @@ const settingsSchema = new mongoose.Schema<IUserSettingsDocument>({
     // Security Settings
     twoFactorAuthEnabled: { type: Boolean, default: false },
     dataEncryptionEnabled: { type: Boolean, default: false },
-});
+}, {
+    timestamps: true
+  });
 
 const UserSettings = mongoose.model<IUserSettingsModel>('settings', settingsSchema);
 export default UserSettings;

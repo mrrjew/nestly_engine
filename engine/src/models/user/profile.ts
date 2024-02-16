@@ -7,6 +7,8 @@ const userProfileSchema = new mongoose.Schema<IUserProfile>({
     lastname: { type: String, required: true },
     phoneNumber: { type: String, required: true },
     address: { type: String, required: true },
+  }, {
+    timestamps: true
   });
 
 const UserProfile = model<IUserProfileDocument,IUserProfileModel>("profile", userProfileSchema)
