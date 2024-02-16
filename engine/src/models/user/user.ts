@@ -18,7 +18,10 @@ const userSchema = new Schema<IUserDocument>({
   type: { type: String, enum: ['OWNER', 'AGENT', 'RENTER'], required: true },
   verificationCode: { type: String, required: true, default: () => v4() },
   passwordResetCode: { type: String},
-  verified: {type: Boolean, required: true, default: false}
+  verified: {type: Boolean, required: true, default: false},
+  profile: { type: Schema.Types.ObjectId, ref: 'profile' }, // Reference to UserProfile
+  settings: { type: Schema.Types.ObjectId, ref: 'settings' }, // Reference to UserSettings
+  rating: { type: Schema.Types.ObjectId, ref: 'rating' } // Reference to UserRating
 });
 
 userSchema.pre('save', async function (next) {

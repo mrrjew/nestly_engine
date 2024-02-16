@@ -3,7 +3,10 @@ import { gql } from 'graphql-tag';
 const typeDefs = gql`
   type Query {
     user: VerifiedUser
-    getUserProfile: Profile
+    getUserProfile: UserProfile
+    getUserByType:[UserGroup]
+    getOverallUserRating: UserAllRating
+    getAllUserSettings: UserSettings
   }
 
   type VerifiedUser @key(fields: _id) {
@@ -13,7 +16,10 @@ const typeDefs = gql`
     password: String!
     type: Type!
     verificationCode: String!
-    verified: Boolean
+    verified: Boolean,
+    profile: UserProfile,
+    settings: UserSettings,
+    rating: UserAllRating
   }
 
   type UnVerifiedUser @key(fields: _id) {
@@ -31,6 +37,11 @@ const typeDefs = gql`
     RENTER
   }
 
+  type UserGroup {
+    _id:String
+    users:[VerifiedUser]
+  }
+
   type UserSession {
     accessToken: String!
     refreshToken: String!
@@ -40,15 +51,68 @@ const typeDefs = gql`
     accessToken: String!
   }
 
-  type Profile {
+  type UserProfile {
     _id: ID!
     userId: ID!
     firstname: String!
     lastname: String!
-    phoneNumber: String!
+    phoneInt: String!
     address: String!
   }
 
+  type UserRating {
+    userId: ID!
+    ratedBy: ID!
+    criteria: String!
+    score: Int!
+    comment: String
+  }
+
+  type UserAllRating {
+    averageRating: Int
+    totalRatings: Int
+  }
+
+  type UserSettings {
+    # General Settings
+    userId: ID!
+    language: Language
+    theme: Theme
+    notificationEnabled: Boolean
+    soundEnabled: Boolean
+    autoSaveInterval: Int
+
+    # Privacy Settings
+    profileVisibility: Visibility
+    contactInfoVisibility: Visibility
+    locationSharingEnabled: Boolean
+    activityTrackingEnabled: Boolean
+    dataSharingEnabled: Boolean
+    dataRetentionPeriod: Int # in days
+    # Security Settings
+    twoFactorAuthEnabled: Boolean
+    dataEncryptionEnabled: Boolean
+  }
+
+  enum Language {
+    EN
+    FR
+    ES
+    DE
+    ZH
+    JA
+    KO
+  }
+
+  enum Theme {
+    LIGHT
+    DARK
+  }
+
+  enum Visibility {
+    PUBLIC
+    PRIVATE
+  }
   input CreateUnverifiedUserInput {
     username: String!
     email: String!
@@ -89,7 +153,7 @@ const typeDefs = gql`
     email: String!
     password: String!
   }
-  
+
   input DeleteUserInput {
     id: String!
   }
@@ -98,15 +162,42 @@ const typeDefs = gql`
     userId: ID!
     firstname: String!
     lastname: String!
-    phoneNumber: String!
+    phoneInt: String!
     address: String!
   }
 
   input UpdateUserProfileInput {
     firstname: String
     lastname: String
-    phoneNumber: String
+    phoneInt: String
     address: String
+  }
+
+  input CreateUserRatingInput {
+    ratedBy: ID!
+    criteria: String!
+    score: Int!
+    comment: String
+  }
+
+  input UpdateUserSettingsInput {
+    # General Settings
+    language: Language
+    theme: Theme
+    notificationEnabled: Boolean
+    soundEnabled: Boolean
+    autoSaveInterval: Int
+
+    # Privacy Settings
+    profileVisibility: Visibility
+    contactInfoVisibility: Visibility
+    locationSharingEnabled: Boolean
+    activityTrackingEnabled: Boolean
+    dataSharingEnabled: Boolean
+    dataRetentionPeriod: Int # in days
+    # Security Settings
+    twoFactorAuthEnabled: Boolean
+    dataEncryptionEnabled: Boolean
   }
 
   type Mutation {
@@ -121,8 +212,14 @@ const typeDefs = gql`
     resetPassword(ResetPasswordInput: ResetPasswordInput!): String!
 
     #user profile mutations
-    createUserProfile(CreateUserProfileInput: CreateUserProfileInput!): Profile
+    createUserProfile(CreateUserProfileInput: CreateUserProfileInput!): UserProfile
     updateUserProfile(UpdateUserProfileInput: UpdateUserProfileInput!): String
+
+    #user rating mutations
+    createUserRating(CreateUserRatingInput: CreateUserRatingInput!): UserRating
+
+    #user settings mutations
+    updateUserSettings(UpdateUserSettingsInput: UpdateUserSettingsInput!): UserSettings
   }
 `;
 

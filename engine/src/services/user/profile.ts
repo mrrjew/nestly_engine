@@ -2,7 +2,7 @@ import { StringExpressionOperatorReturningString } from 'mongoose';
 import IService, { IAppContext } from '../../types/app';
 import { IUserProfileInput } from '../../types/user/profile';
 
-export default class UserProfile extends IService {
+export default class UserProfileService extends IService {
   constructor(props: IAppContext) {
     super(props);
   }

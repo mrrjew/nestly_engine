@@ -1,18 +1,24 @@
 import { IAppContext } from '../types/app';
-import UserProfile from './user/profile';
+import UserProfileService from './user/profile';
+import UserRatingService from './user/rating';
 import UserSessionService from './user/session';
+import UserSettingsService from './user/settings';
 import UserService from './user/user';
 
 export interface IServices {
   UserService: UserService;
   UserSessionService: UserSessionService;
-  UserProfile: UserProfile
+  UserProfileService: UserProfileService
+  UserRatingService: UserRatingService
+  UserSettingsService: UserSettingsService
 }
 
 export default async function initServices(context: IAppContext): Promise<IServices> {
   return {
     UserService: new UserService(context),
     UserSessionService : new UserSessionService(context),
-    UserProfile: new UserProfile(context)
+    UserProfileService: new UserProfileService(context),
+    UserRatingService: new UserRatingService(context),
+    UserSettingsService: new UserSettingsService(context)
   };
 }

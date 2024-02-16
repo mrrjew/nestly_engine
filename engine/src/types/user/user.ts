@@ -1,4 +1,7 @@
 import { Model, Types, Document } from 'mongoose';
+import { IUserSettingsDocument } from './settings';
+import { IUserProfileDocument } from './profile';
+import { IUserRatingDocument } from './rating';
 
 export interface IUser {
   username: string;
@@ -8,6 +11,9 @@ export interface IUser {
   verificationCode: string;
   passwordResetCode?: string;
   verified: boolean;
+  profile?:IUserProfileDocument;
+  settings?:IUserSettingsDocument;
+  rating?:IUserRatingDocument;
 }
 
 export interface IUserAuth {

@@ -6,7 +6,6 @@ export interface IUserRating {
   criteria: string;
   score: number;
   comment?: string;
-  review: string;
 }
 
 export interface IUserRatingDocument extends IUserRating, Document {
@@ -14,4 +13,4 @@ export interface IUserRatingDocument extends IUserRating, Document {
   updatedAt: Date;
 }
 
-export interface IRatingModel extends Model<IUserRatingDocument> {}
+export interface IUserRatingModel extends Model<IUserRatingDocument> {}
