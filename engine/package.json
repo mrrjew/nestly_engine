@@ -57,7 +57,7 @@
     "build": "tsc --outDir dist",
     "prod": "node dist/index.js",
     "dev": "nodemon src/index.ts",
-    "lint": "eslint src --fix",
+    "lint": "eslint . --fix",
     "prettier": "prettier src --fix"
   }
 }

@@ -1,4 +1,4 @@
-import { profile } from 'console';
+import { GraphQLError } from 'graphql';
 import { IAppContext } from '../../types/app';
 export default function (appContext: IAppContext) {
   return {
@@ -19,12 +19,12 @@ export default function (appContext: IAppContext) {
             .populate('rating');
 
           if (!user) {
-            throw new Error('User not found');
+            throw new GraphQLError('User not found');
           }
 
           return user;
         } catch (e) {
-          throw new Error(`Error getting user in graphql: ${e}`);
+          throw new GraphQLError(`Error getting user in graphql: ${e}`);
         }
       },
       getAllUsers: async function () {
@@ -49,7 +49,7 @@ export default function (appContext: IAppContext) {
 
           return groupedUsers;
         } catch (e) {
-          throw new Error(`Error grouping users: ${e}`);
+          throw new GraphQLError(`Error grouping users: ${e}`);
         }
       },
       getRecentUsers: async function (_: any) {
@@ -68,7 +68,7 @@ export default function (appContext: IAppContext) {
           ]);
           return recentUsers;
         } catch (e) {
-          throw new Error(`Error getting recently registered users`);
+          throw new GraphQLError(`Error getting recently registered users`);
         }
       },
 
@@ -78,7 +78,7 @@ export default function (appContext: IAppContext) {
           !profile && 'no rating found';
           return profile;
         } catch (e) {
-          throw new Error(`Error getting user profile: ${e}`);
+          throw new GraphQLError(`Error getting user profile: ${e}`);
         }
       },
       getOverallUserRating: async function (_: any, {}, context: any) {
@@ -87,7 +87,7 @@ export default function (appContext: IAppContext) {
           !rating && 'no rating found';
           return rating;
         } catch (e) {
-          throw new Error(`Error getting user rating: ${e}`);
+          throw new GraphQLError(`Error getting user rating: ${e}`);
         }
       },
       getAllUserSettings: async function (_: any, {}, context: any) {
@@ -96,7 +96,7 @@ export default function (appContext: IAppContext) {
           !settings && 'no settings found';
           return settings;
         } catch (e) {
-          throw new Error(`Error getting user setings: ${e}`);
+          throw new GraphQLError(`Error getting user setings: ${e}`);
         }
       },
     },
