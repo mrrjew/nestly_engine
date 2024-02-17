@@ -1,13 +1,13 @@
 import { gql } from 'graphql-tag';
 
 const typeDefs = gql`
-  type Query {
+  extend type Query {
     user: VerifiedUser
     getUserProfile: UserProfile
-    getUsersByType:[UserGroup]
-    getRecentUsers:[VerifiedUser]
-    getAllUsers:[UnVerifiedUser]
-    getAllVerifiedUsers:[VerifiedUser]
+    getUsersByType: [UserGroup]
+    getRecentUsers: [VerifiedUser]
+    getAllUsers: [UnVerifiedUser]
+    getAllVerifiedUsers: [VerifiedUser]
     getOverallUserRating: UserAllRating
     getAllUserSettings: UserSettings
   }
@@ -19,10 +19,7 @@ const typeDefs = gql`
     password: String!
     type: Type!
     verificationCode: String!
-    verified: Boolean,
-    profile: UserProfile,
-    settings: UserSettings,
-    rating: UserAllRating
+    verified: Boolean
   }
 
   type UnVerifiedUser @key(fields: _id) {
@@ -41,8 +38,8 @@ const typeDefs = gql`
   }
 
   type UserGroup {
-    _id:String
-    users:[VerifiedUser]
+    _id: String
+    users: [VerifiedUser]
   }
 
   type UserSession {
@@ -140,12 +137,7 @@ const typeDefs = gql`
   }
 
   input CreateUserSessionInput {
-    _id: ID!
-    username: String!
     email: String!
-    password: String!
-    type: Type!
-    verified: Boolean
   }
 
   input RefreshTokenInput {
@@ -162,10 +154,9 @@ const typeDefs = gql`
   }
 
   input CreateUserProfileInput {
-    userId: ID!
     firstname: String!
     lastname: String!
-    phoneInt: String!
+    phoneNumber: String!
     address: String!
   }
 
@@ -177,6 +168,7 @@ const typeDefs = gql`
   }
 
   input CreateUserRatingInput {
+    userId: ID!
     ratedBy: ID!
     criteria: String!
     score: Int!
@@ -203,7 +195,7 @@ const typeDefs = gql`
     dataEncryptionEnabled: Boolean
   }
 
-  type Mutation {
+  extend type Mutation {
     #user auth mutations
     createUser(CreateUnverifiedUserInput: CreateUnverifiedUserInput!): UnVerifiedUser
     verifyUser(VerifyUserInput: VerifyUserInput!): Boolean!

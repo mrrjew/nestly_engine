@@ -1,4 +1,5 @@
 // import { Request, Response } from 'express';
+import { AnyKeys } from 'mongoose';
 import IService, { IAppContext } from '../../types/app';
 import { IUserInput } from '../../types/user/user';
 import { findSessionById, signAccessToken, signRefreshToken } from '../../utils/session';
@@ -10,10 +11,11 @@ export default class UserSessionService extends IService {
     super(props);
   }
 
-  async createUserSession(input: IUserInput) {
-    const { email, password } = input;
+  async createUserSession(input:any) {
+    const { email } = input;
 
     const user = await this.models.User.findOne({ email });
+    console.log(user)
 
     if (!user) {
       throw new Error('Invalid email or password');
@@ -21,12 +23,6 @@ export default class UserSessionService extends IService {
 
     if (!user.verified) {
       throw new Error('Please verify your email');
-    }
-
-    const isValid = await user.validatePassword(password);
-
-    if (!isValid) {
-      throw new Error('Invalid email or password');
     }
 
     const accessToken = signAccessToken(user);
@@ -40,7 +36,7 @@ export default class UserSessionService extends IService {
   }
 
   async refreshAccessToken(refreshToken: string) {
-    const decoded = verifyJwt<{ session: string }>(refreshToken, 'refreshTokenPublicKey');
+    const decoded = verifyJwt<{ session: string }>(refreshToken);
 
     if (!decoded) {
       throw new Error('Could not refresh access token');

@@ -32,7 +32,7 @@ export default class UserProfileService extends IService {
 
       return userProfile;
     } catch (e) {
-      throw new Error(`Error creating user profile`);
+      throw new Error(`Error creating user profile: ${e}`);
     }
   }
 

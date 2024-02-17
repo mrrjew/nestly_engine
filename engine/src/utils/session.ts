@@ -12,7 +12,7 @@ export async function signRefreshToken({ userId }: { userId: Types.ObjectId }) {
   const session = createSession({ userId });
 
   const payload = { session: (await session)._id };
-  const refreshToken = signJwt(payload, 'refreshTokenPrivateKey', {
+  const refreshToken = signJwt(payload,{
     expiresIn: '1y',
     algorithm:'RS256'
   });
@@ -23,7 +23,7 @@ export async function signRefreshToken({ userId }: { userId: Types.ObjectId }) {
 export async function signAccessToken(user: any) {
   const payload = omit(user.toJSON(), privateField);
 
-  const accessToken = signJwt(payload, 'accessTokenPrivateKey', {
+  const accessToken = signJwt(payload,{
     expiresIn: '1d',
   });
   

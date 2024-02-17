@@ -14,10 +14,7 @@ export default function (appContext: IAppContext) {
           const userId = context.user._id;
 
           const user = await appContext.models.User.findById(userId)
-            .populate('profile')
-            .populate('settings')
-            .populate('rating');
-
+            
           if (!user) {
             throw new GraphQLError('User not found');
           }
@@ -155,8 +152,7 @@ export default function (appContext: IAppContext) {
       },
       createUserRating: async function (_: any, args: any, context: any) {
         const rating = await appContext.services.UserRatingService.createUserRating(
-          args.CreateUserRatingInput,
-          context.user._id
+          args.CreateUserRatingInput
         );
         return rating;
       },

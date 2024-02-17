@@ -1,6 +1,6 @@
 # NESTLY Apartment Renting Website
 
-NESTLY is a full-stack apartment renting website built using NestJS, Apollo Server, React, and MongoDB.
+NESTLY is a full-stack apartment renting website built using ExpressJS, Apollo Server, React, and MongoDB.
 
 ## Table of Contents
 

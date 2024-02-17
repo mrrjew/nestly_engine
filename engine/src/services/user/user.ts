@@ -137,7 +137,7 @@ export default class UserService extends IService {
     return user;
   }
 
-  async deleteUser(id:any) {
+  async deleteUser(id: any) {
     const user = await this.models.User.findById(id);
 
     if (!user) {

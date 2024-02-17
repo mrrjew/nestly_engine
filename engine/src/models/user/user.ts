@@ -19,9 +19,6 @@ const userSchema = new Schema<IUserDocument>({
   verificationCode: { type: String, required: true, default: () => v4() },
   passwordResetCode: { type: String},
   verified: {type: Boolean, required: true, default: false},
-  profile: { type: Schema.Types.ObjectId, ref: 'profile' }, // Reference to UserProfile
-  settings: { type: Schema.Types.ObjectId, ref: 'settings' }, // Reference to UserSettings
-  rating: { type: Schema.Types.ObjectId, ref: 'rating' } // Reference to UserRating
 }, {
   timestamps: true
 });

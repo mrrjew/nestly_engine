@@ -5,6 +5,7 @@ import express from "express";
 import { IAppContext } from "../types/app";
 import cors, { CorsRequest } from "cors";
 import { json } from "body-parser";
+import colors from 'colors'
 import { expressMiddleware } from "@apollo/server/express4";
 
 import initDb from "../models";

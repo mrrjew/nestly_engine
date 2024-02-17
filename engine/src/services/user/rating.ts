@@ -6,9 +6,9 @@ export default class UserRatingService extends IService {
     super(props);
   }
 
-  async createUserRating(createUserRatingInput: IUserRating,userId:any) {
+  async createUserRating(createUserRatingInput: IUserRating) {
     try {
-      const rating = await this.models.UserRating.create({userId,...createUserRatingInput});
+      const rating = await this.models.UserRating.create({createUserRatingInput});
       return rating;
     } catch (e) {
       throw new Error(`Could not rate user`);

@@ -11,7 +11,6 @@ const publicKey = fs.readFileSync(publicKeyPath);
 
 export function signJwt(
   object: Object,
-  keyName: 'accessTokenPrivateKey' | 'refreshTokenPrivateKey',
   options?: jwt.SignOptions | undefined
 ) {
 
@@ -21,7 +20,7 @@ export function signJwt(
   });
 }
 
-export function verifyJwt<T>(token: string, keyName: 'accessTokenPublicKey' | 'refreshTokenPublicKey'): T | null {
+export function verifyJwt<T>(token: string): T | null {
 
   try {
     const decoded = jwt.verify(token, publicKey) as T;
