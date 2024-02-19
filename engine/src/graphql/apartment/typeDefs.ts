@@ -1,52 +1,93 @@
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
 const typeDefs = gql`
-    extend type Query {
-        getAllOwnerApartments : [Apartment]
-    }
+  extend type Query {
+    getAllOwnerApartments: [Apartment]
+    getAllApartments(GetAllApartmentsInput: GetAllApartmentsInput): [Apartment]
+  }
 
+  type Apartment {
+    _id: ID!
+    owner: ID!
+    name: String!
+    description: String!
+    location: String!
+    bedrooms: Int!
+    bathrooms: Int!
+    amenities: [String]!
+    price: Float!
+    available: Boolean!
+    images: [ID]!
+  }
 
-    type Apartment {
-        owner: ID!
-        name: String!
-        description: String!
-        location: String!
-        bedrooms: Int!
-        bathrooms: Int!
-        amenities: [String]!
-        price: Int!
-        available: Boolean!
-        images: [ID]!
-    }
+  input FilterOperatorsIntInput {
+    ne: Int
+    gt: Int
+    eq: Int
+    gte: Int
+    lt: Int
+    lte: Int
+  }
 
-    input UpdateApartmentInput {
-        name: String
-        description: String
-        location: String
-        bedrooms: Int
-        bathrooms: Int
-        amenities: [String]
-        price: Int
-        available: Boolean
-        images: [ID]
-    }
+  input FiltersInput {
+    bedrooms: FilterOperatorsIntInput
+    bathrooms: FilterOperatorsIntInput
+    price: FilterOperatorsIntInput
+  }
 
-    input CreateApartmentInput {
-        name: String!
-        description: String!
-        location: String!
-        bedrooms: Int!
-        bathrooms: Int!
-        amenities: [String]!
-        price: Int!
-        available: Boolean!
-        images: [ID]!
-    }
+  input SortInput {
+    price: Int
+    bedrooms: Int
+  }
 
-    extend type Mutation {
-        createApartment(CreateApartmentInput: CreateApartmentInput!): Apartment
-        updateApartment(UpdateApartmentInput: UpdateApartmentInput!): Apartment
-    }
-`
+  input PaginationInput {
+    limit: Int
+    offset: Int
+  }
 
-export default typeDefs
+  input GetAllApartmentsInput {
+    filters: FiltersInput
+    sort: SortInput
+    pagination: PaginationInput
+    search: String
+  }
+
+  input UpdateApartmentInput {
+    name: String
+    description: String
+    location: String
+    bedrooms: Int
+    bathrooms: Int
+    amenities: [String]
+    price: Float
+    available: Boolean
+    images: [ID]
+  }
+
+  input CreateApartmentInput {
+    name: String!
+    description: String!
+    location: String!
+    bedrooms: Int!
+    bathrooms: Int!
+    amenities: [String]!
+    price: Float!
+    available: Boolean!
+    images: [ID]!
+  }
+
+  input DeleteApartmentInput {
+    id: ID!
+  }
+
+  scalar Upload
+
+  extend type Mutation {
+    createApartment(CreateApartmentInput: CreateApartmentInput!): Apartment
+    updateApartment(UpdateApartmentInput: UpdateApartmentInput!): Apartment
+    deleteApartment(DeleteApartmentInput: DeleteApartmentInput!): String
+    uploadImages(UploadImageInput: Upload!): String!
+  }
+`;
+
+export default typeDefs;

@@ -27,6 +27,9 @@ const config: Config = {
     logger: {
     level: process.env.LOGGER_LEVEL
   },
+  base_url:{
+    url:`http://localhost:800`
+  }
   
 };
 

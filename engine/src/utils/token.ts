@@ -20,7 +20,7 @@ export function signJwt(
   });
 }
 
-export function verifyJwt<T>(token: string): T | null {
+export async function verifyJwt<T>(token: string): Promise<T | null> {
 
   try {
     const decoded = jwt.verify(token, publicKey) as T;

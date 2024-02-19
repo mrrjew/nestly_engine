@@ -15,16 +15,16 @@ export default class UserSessionService extends IService {
     const { email } = input;
 
     const user = await this.models.User.findOne({ email });
-    console.log(user)
-
+    
     if (!user) {
       throw new Error('Invalid email or password');
     }
-
+    
     if (!user.verified) {
       throw new Error('Please verify your email');
     }
-
+    
+    console.log(user)
     const accessToken = signAccessToken(user);
 
     const refreshToken = await signRefreshToken({ userId: user._id });
@@ -36,7 +36,7 @@ export default class UserSessionService extends IService {
   }
 
   async refreshAccessToken(refreshToken: string) {
-    const decoded = verifyJwt<{ session: string }>(refreshToken);
+    const decoded = await verifyJwt<{ session: string }>(refreshToken);
 
     if (!decoded) {
       throw new Error('Could not refresh access token');

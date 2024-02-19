@@ -28,6 +28,9 @@ export interface Config {
   logger: {
     level: string;
   };
+  base_url : {
+    url: string
+  }
 }
 
 const config = process.env.NODE_ENV === 'development' ? development : production;

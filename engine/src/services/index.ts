@@ -2,6 +2,7 @@ import { IAppContext } from '../types/app';
 
 // apartment
 import ApartmentService from './apartment/apartment';
+import ApartmentImagesService from './apartment/image';
 
 //user
 import UserProfileService from './user/profile';
@@ -17,6 +18,7 @@ export interface IServices {
   UserRatingService: UserRatingService
   UserSettingsService: UserSettingsService
   ApartmentService: ApartmentService
+  ApartmentImagesService: ApartmentImagesService
 }
 
 export default async function initServices(context: IAppContext): Promise<IServices> {
@@ -26,6 +28,7 @@ export default async function initServices(context: IAppContext): Promise<IServi
     UserProfileService: new UserProfileService(context),
     UserRatingService: new UserRatingService(context),
     UserSettingsService: new UserSettingsService(context),
-    ApartmentService: new ApartmentService(context)
+    ApartmentService: new ApartmentService(context),
+    ApartmentImagesService: new ApartmentImagesService(context)
   };
 }
