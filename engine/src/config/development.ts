@@ -5,7 +5,7 @@ import { Config } from '.';
 const config: Config = {
   app: {
     name: 'nestly',
-    port: 800,
+    port: 8000,
     env: 'development',
   },
   auth: {

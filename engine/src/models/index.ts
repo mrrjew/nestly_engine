@@ -14,7 +14,6 @@ import Apartment from './apartment/apartment';
 import ApartmentBooking from './apartment/booking';
 import ApartmentReview from './apartment/review';
 import ApartmentImage from './apartment/image';
-import ApartmentLocation from './apartment/location';
 
 export interface IModels {
   User: typeof User;
@@ -25,7 +24,6 @@ export interface IModels {
   ApartmentBooking: typeof ApartmentBooking;
   ApartmentReview: typeof ApartmentReview;
   ApartmentImage: typeof ApartmentImage;
-  ApartmentLocation: typeof ApartmentLocation;
 }
 
 export default async function initDB(config: Config['db']): Promise<IModels> {
@@ -40,7 +38,6 @@ export default async function initDB(config: Config['db']): Promise<IModels> {
     await Apartment.createCollection();
     await ApartmentBooking.createCollection();
     await ApartmentReview.createCollection();
-    await ApartmentLocation.createCollection();
     await ApartmentImage.createCollection();
 
     return {
@@ -50,7 +47,6 @@ export default async function initDB(config: Config['db']): Promise<IModels> {
       UserSettings,
       Apartment,
       ApartmentBooking,
-      ApartmentLocation,
       ApartmentReview,
       ApartmentImage,
     };

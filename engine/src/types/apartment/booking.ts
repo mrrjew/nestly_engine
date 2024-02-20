@@ -5,7 +5,7 @@ export interface IApartmentBooking {
     apartment: Types.ObjectId
     startDate: Date,
     endDate: Date,
-    status: 'confirmed' | 'pending' | 'canceled'
+    status: 'CONFIRMED' | 'PENDING' | 'CANCELED'
     notes: string
 }
 

@@ -2,11 +2,11 @@ import mongoose,{Schema} from "mongoose";
 
 const bookingSchema = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    apartment: { type: Schema.Types.ObjectId, ref: 'Apartment', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'user', required: true },
+    apartment: { type: Schema.Types.ObjectId, ref: 'apartment', required: true },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
-    status: { type: String, enum: ['confirmed', 'pending', 'canceled'], default: 'pending' },
+    status: { type: String, enum: ['CONFIRMED', 'PENDING', 'CANCELED'], default: 'PENDING' },
     notes: String,
   },
   { timestamps: true }

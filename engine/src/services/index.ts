@@ -2,7 +2,9 @@ import { IAppContext } from '../types/app';
 
 // apartment
 import ApartmentService from './apartment/apartment';
+import ApartmentBookingService from './apartment/booking';
 import ApartmentImagesService from './apartment/image';
+import ApartmentReviewService from './apartment/review';
 
 //user
 import UserProfileService from './user/profile';
@@ -17,8 +19,12 @@ export interface IServices {
   UserProfileService: UserProfileService
   UserRatingService: UserRatingService
   UserSettingsService: UserSettingsService
+
+  // apartment
   ApartmentService: ApartmentService
   ApartmentImagesService: ApartmentImagesService
+  ApartmentReviewService: ApartmentReviewService
+  ApartmentBookingService: ApartmentBookingService
 }
 
 export default async function initServices(context: IAppContext): Promise<IServices> {
@@ -29,6 +35,8 @@ export default async function initServices(context: IAppContext): Promise<IServi
     UserRatingService: new UserRatingService(context),
     UserSettingsService: new UserSettingsService(context),
     ApartmentService: new ApartmentService(context),
-    ApartmentImagesService: new ApartmentImagesService(context)
+    ApartmentImagesService: new ApartmentImagesService(context),
+    ApartmentReviewService: new ApartmentReviewService(context),
+    ApartmentBookingService: new ApartmentBookingService(context)
   };
 }
