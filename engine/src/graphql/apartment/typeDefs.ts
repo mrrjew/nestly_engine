@@ -3,9 +3,7 @@ import gql from 'graphql-tag';
 const typeDefs = gql`
   extend type Query {
     getAllOwnerApartments: [Apartment]
-    getAllApartments(GetAllApartmentsInput: GetAllApartmentsInput): [Apartment]
-    getAllApartmentReviews(GetAllApartmentReviewsInput:GetAllApartmentReviewsInput!):[ApartmentReview]
-    getAllApartmentBookings(GetAllApartmentBookingsInput:GetAllApartmentBookingsInput!): [ApartmentBooking]
+    getAllApartments(GetAllApartmentsInput: GetAllApartmentsInput!): [Apartment]
   }
 
   type Apartment {
@@ -19,32 +17,18 @@ const typeDefs = gql`
     amenities: [String]!
     price: Float!
     available: Boolean!
-    images: [ID]!
+    Images: [String]
+    reviews: [ApartmentReviews]
   }
 
-  type ApartmentReview {
-    _id: ID!
-    user: ID!
-    apartment: ID!
+  type ApartmentReviews {
     rating: Int!
     comment: String!
   }
 
-  type ApartmentBooking {
-    _id:ID!
-    user:ID!
-    apartment:ID!
-    startDate: Date!
-    endDate: Date!
-
-  }
-
-  input GetAllApartmentReviewsInput {
-    apartmentId:ID!
-  }
-
-  input GetAllApartmentBookingsInput {
-    apartmentId: ID!
+  input ApartmentReviewsInput {
+    rating: Int!
+    comment: String!
   }
 
   input FilterOperatorsIntInput {
@@ -88,7 +72,8 @@ const typeDefs = gql`
     amenities: [String]
     price: Float
     available: Boolean
-    images: [ID]
+    images: [String]
+    reviews: [ApartmentReviewsInput]
   }
 
   input CreateApartmentInput {
@@ -100,47 +85,20 @@ const typeDefs = gql`
     amenities: [String]!
     price: Float!
     available: Boolean!
-    images: [ID]!
+    reviews: [ApartmentReviewsInput]
   }
 
   input DeleteApartmentInput {
     id: ID!
   }
 
-  input CreateApartmentReviewInput {
-    apartment: ID!
-    rating: Int!
-    comment: String!
-  } 
-
-  input DeleteApartmentReviewInput {
-    id:ID!
-  }
-
-  input CreateApartmentBookingInput {
-    apartment:ID!
-    startDate:Date!
-    endDate:Date!
-    status: BookingStatus!
-  }
-
-  enum BookingStatus {
-    CONFIRMED
-    PENDING
-    CANCELED
-  }
-  scalar Upload
   scalar Date
 
   extend type Mutation {
     createApartment(CreateApartmentInput: CreateApartmentInput!): Apartment
     updateApartment(UpdateApartmentInput: UpdateApartmentInput!): Apartment
     deleteApartment(DeleteApartmentInput: DeleteApartmentInput!): String
-    uploadImages(UploadImageInput: Upload!): String!
-    createApartmentReview(CreateApartmentReviewInput: CreateApartmentReviewInput!): ApartmentReview
-    deleteApartmentReview(DeleteApartmentReviewInput: DeleteApartmentReviewInput!): String
-    createApartmentBooking(CreateApartmentBookingInput: CreateApartmentBookingInput!):ApartmentBooking
-    }
+  }
 `;
 
 export default typeDefs;

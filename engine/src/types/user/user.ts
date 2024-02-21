@@ -1,8 +1,54 @@
 import { Model, Types, Document } from 'mongoose';
-import { IUserSettingsDocument } from './settings';
-import { IUserProfileDocument } from './profile';
-import { IUserRatingDocument } from './rating';
 
+
+export interface IUserProfile {
+  userId: Types.ObjectId;
+  firstname: string;
+  lastname: string;
+  phoneNumber: string;
+  address: string;
+}
+export interface IUserProfileInput {
+  firstname: string;
+  lastname: string;
+  phoneNumber: string;
+  address: string;
+}
+
+export interface IUserSettings{
+  userId:Types.ObjectId
+  // General Settings
+  language : 'EN' | 'FR' | 'ES' | 'DE' | 'ZH' | 'JA' | 'KO';
+  theme: 'LIGHT' | 'DARK'
+  notificationEnabled: boolean;
+  soundEnabled: boolean;
+  autoSaveInterval: number;
+
+  // Privacy Settings
+  profileVisibility: 'PUBLIC' | 'PRIVATE';
+  contactInfoVisibility: 'PUBLIC' | 'PRIVATE';
+  locationSharingEnabled: boolean;
+  activityTrackingEnabled: boolean;
+  dataSharingEnabled: boolean;
+  dataRetentionPeriod: number; // in days
+
+  // Security Settings
+  twoFactorAuthEnabled: boolean;
+  dataEncryptionEnabled: boolean;
+  createdAt:Date
+  updatedAt:Date
+}
+
+export interface IUserRating {
+  userId: Types.ObjectId;
+  ratedBy: Types.ObjectId;
+  criteria: string;
+  score: number;
+  comment?: string;
+}
+
+
+// main user type
 export interface IUser {
   username: string;
   email: string;
@@ -11,9 +57,9 @@ export interface IUser {
   verificationCode: string;
   passwordResetCode?: string;
   verified: boolean;
-  profile?:IUserProfileDocument;
-  settings?:IUserSettingsDocument;
-  rating?:IUserRatingDocument;
+  profile?:IUserProfile;
+  settings?:IUserSettings;
+  rating?:IUserRating[];
 }
 
 export interface IUserAuth {

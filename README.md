@@ -31,7 +31,6 @@ NESTLY is a comprehensive solution for renting apartments. It provides users wit
 
 The project follows a modular architecture with separate directories for the client-side (React) and server-side (NestJS) code:
 
-- **[client](client/README.md)**: Contains the client-side codebase built with React.
 - **[engine](engine/README.md)**: Contains the server-side codebase built with NestJS and Apollo Server.
 - **shared**: Contains shared code, utilities, and GraphQL schema definitions used by both client and server.
 
@@ -55,11 +54,9 @@ Before running the project, make sure you have the following installed:
 
 `cd nestly`
 
-3. Install dependencies for both the client and server:
+3. Install dependencies for engine:
 
 ```bash
-  cd client
-  npm install
   cd ../engine
   npm install
 ```
@@ -94,13 +91,12 @@ MAIL_SECURE=
 
 ### Usage
 
-Start both server by running 
+Start engine by running 
 
 ```bash
-npm run app
+npm run dev
 ```
-
-in root directory
+in ./engine
 
 ### Contributing
 

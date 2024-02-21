@@ -1,16 +1,13 @@
-// import { Request, Response } from 'express';
-import { AnyKeys } from 'mongoose';
-import IService, { IAppContext } from '../../types/app';
-import { IUserInput } from '../../types/user/user';
-import { findSessionById, signAccessToken, signRefreshToken } from '../../utils/session';
-// import { get } from 'lodash';
 import { verifyJwt } from '../../utils/token';
+import { findSessionById, signAccessToken, signRefreshToken } from '../../utils/session';
 
-export default class UserSessionService extends IService {
-  constructor(props: IAppContext) {
-    super(props);
-  }
+import IService, { IAppContext } from "../../types/app";
 
+export default class UserSessionService extends IService{
+    constructor(props:IAppContext){
+        super(props)
+    }
+      // creates access tokens
   async createUserSession(input:any) {
     const { email } = input;
 
@@ -24,7 +21,6 @@ export default class UserSessionService extends IService {
       throw new Error('Please verify your email');
     }
     
-    console.log(user)
     const accessToken = signAccessToken(user);
 
     const refreshToken = await signRefreshToken({ userId: user._id });
@@ -35,6 +31,7 @@ export default class UserSessionService extends IService {
     };
   }
 
+  // refreshes access tokens
   async refreshAccessToken(refreshToken: string) {
     const decoded = await verifyJwt<{ session: string }>(refreshToken);
 
@@ -58,4 +55,5 @@ export default class UserSessionService extends IService {
 
     return { accessToken };
   }
+
 }

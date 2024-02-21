@@ -10,6 +10,7 @@ export default class UserService extends IService {
     super(context);
   }
 
+  // registers user
   async registerUser(CreateUnverifiedUserInput: IUserInput): Promise<IUserAuth> {
     try {
       const _user = await this.models.User.findOne({ email: CreateUnverifiedUserInput.email });
@@ -33,15 +34,12 @@ export default class UserService extends IService {
     }
   }
 
+  //verifies user
   async verifyUser(VerifyUserInput: IUserVerificationInput): Promise<boolean> {
     const { id, verificationCode } = VerifyUserInput;
     try {
       // Find the user by Id
-      const user = await this.models.User.findById(id);
-
-      if (!user) {
-        throw new Error('User not found');
-      }
+      const user = await this.authenticate_user(id)
 
       // Check if the user is already verified
       if (user.verified) {
@@ -63,6 +61,7 @@ export default class UserService extends IService {
     }
   }
 
+  // sends verification code to user's email
   async forgotPassword(ForgotPasswordInput: { email: string }) {
     const { email } = ForgotPasswordInput;
 
@@ -96,12 +95,11 @@ export default class UserService extends IService {
     return message;
   }
 
+  // resets user's password to new password from email
   async resetPassword(ResetPasswordInput: IUserResetPasswordInput) {
     const { id, passwordResetCode, newPassword } = ResetPasswordInput;
 
-    const user = await this.models.User.findById(id);
-    console.log('passcode', user.passwordResetCode);
-    console.log('payload', passwordResetCode);
+    const user = await this.authenticate_user(id)
 
     if (!user || user.passwordResetCode !== passwordResetCode) {
       throw new Error('Could not reset password');
@@ -117,6 +115,7 @@ export default class UserService extends IService {
     return message;
   }
 
+  // login user
   async loginUser(LoginUserInput: any) {
     const { email, password } = LoginUserInput;
 
@@ -137,18 +136,68 @@ export default class UserService extends IService {
     return user;
   }
 
-  async deleteUser(id: any) {
-    const user = await this.models.User.findById(id);
-
-    if (!user) {
-      throw new Error('User does not exist');
+  // updates user details
+  async updateUser(UpdateUserInput: any, userId: any) {
+    try {
+      const user = await this.authenticate_user(userId)
+  
+      if ('rating' in UpdateUserInput) {
+        user.rating = UpdateUserInput.rating;
+      } else {
+        if (user._id.toString() !== userId.toString()) {
+          throw new Error(`Unauthorized: Cannot update another user's details`);
+        }
+  
+        for (const key in UpdateUserInput) {
+          if (key !== 'rating') {
+            user[key] = UpdateUserInput[key];
+          }
+        }
+      }
+  
+      await user.save();
+  
+      return user;
+    } catch (e) {
+      throw new Error(`Error updating user: ${e.message}`);
     }
+  }
+  
+
+  // deletes user account
+  async deleteUser(id: any) {
+    const user = await this.authenticate_user(id)
 
     try {
       await this.models.User.findByIdAndDelete(id);
       return `Deleted user successfully`;
     } catch (e) {
       throw new Error(`Error deleting user`);
+    }
+  }
+
+  // getting user rating
+  async getUserRating(userId: any) {
+    try {
+      const user = await this.models.User.findOne({_id:userId});
+
+      if (user.rating.length === 0) {
+        return {
+          averageRating: 0,
+          totalRatings: 0,
+        };
+      }
+
+      const totalScore = user.rating.reduce((sum: any, rating: any) => sum + rating.score, 0);
+      const averageRating = totalScore / user.rating.length;
+
+      return {
+        averageRating,
+        totalRatings: user.rating.length,
+      };
+    } catch (error) {
+      console.error('Error fetching ratings for user:', error);
+      throw new Error('Failed to fetch ratings');
     }
   }
 }

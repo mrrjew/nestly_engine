@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IApartmentDocument, IApartmentModel } from '../../types/apartment/apartment';
+import { IApartmentDocument} from '../../types/apartment/apartment';
 
 const apartmentSchema = new Schema<IApartmentDocument>(
   {
@@ -12,7 +12,13 @@ const apartmentSchema = new Schema<IApartmentDocument>(
     amenities: [String],
     price: { type: Number, required: true },
     available: { type: Boolean, default: true },
-    images: [{ type: Schema.Types.ObjectId, ref:'image'}],
+    reviews: [{
+      rating: { type: Number, min:0,max:5 },
+      comment: String,
+    }],
+    images: [
+      {url: { type: String}}
+    ],
   },
   { timestamps: true }
 );

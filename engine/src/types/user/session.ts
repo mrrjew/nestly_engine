@@ -1,13 +1,12 @@
-import { Model, Types, Document } from 'mongoose';
+import { Types,Document } from "mongoose"
 
 export interface IUserSession {
-  userId: Types.ObjectId
-  valid: boolean
-}
+    userId: Types.ObjectId
+    valid: boolean
+  }
 
-export interface IUserSessionDocument extends IUserSession {
-    createdAt: Date
-    updatedAt: Date
+export default interface IUserSessionDocument extends IUserSession,Document {
+    _id:Types.ObjectId;
+    createdAt:Date;
+    updatedAt:Date;
 }
-
-export interface IUserSessionModel extends Model<IUserSessionDocument>{}

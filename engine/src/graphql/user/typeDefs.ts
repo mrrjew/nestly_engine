@@ -3,13 +3,10 @@ import { gql } from 'graphql-tag';
 const typeDefs = gql`
   extend type Query {
     user: VerifiedUser
-    getUserProfile: UserProfile
     getUsersByType: [UserGroup]
     getRecentUsers: [VerifiedUser]
     getAllUsers: [UnVerifiedUser]
     getAllVerifiedUsers: [VerifiedUser]
-    getOverallUserRating: UserAllRating
-    getAllUserSettings: UserSettings
   }
 
   type VerifiedUser @key(fields: _id) {
@@ -20,6 +17,9 @@ const typeDefs = gql`
     type: Type!
     verificationCode: String!
     verified: Boolean
+    profile: UserProfile
+    rating: [UserRating]
+    settings: UserSettings
   }
 
   type UnVerifiedUser @key(fields: _id) {
@@ -33,7 +33,6 @@ const typeDefs = gql`
 
   enum Type {
     OWNER
-    AGENT
     RENTER
   }
 
@@ -52,30 +51,21 @@ const typeDefs = gql`
   }
 
   type UserProfile {
-    _id: ID!
-    userId: ID!
     firstname: String!
     lastname: String!
-    phoneInt: String!
+    phoneNumber: String!
     address: String!
   }
 
   type UserRating {
-    userId: ID!
     ratedBy: ID!
     criteria: String!
     score: Int!
     comment: String
   }
 
-  type UserAllRating {
-    averageRating: Int
-    totalRatings: Int
-  }
-
   type UserSettings {
     # General Settings
-    userId: ID!
     language: Language
     theme: Theme
     notificationEnabled: Boolean
@@ -94,6 +84,16 @@ const typeDefs = gql`
     dataEncryptionEnabled: Boolean
   }
 
+  enum Visibility {
+    PUBLIC
+    PRIVATE
+  }
+
+  enum Theme {
+    LIGHT
+    DARK
+  }
+
   enum Language {
     EN
     FR
@@ -104,15 +104,40 @@ const typeDefs = gql`
     KO
   }
 
-  enum Theme {
-    LIGHT
-    DARK
+  input UserProfileInput {
+    firstname: String!
+    lastname: String!
+    phoneNumber: String!
+    address: String!
   }
 
-  enum Visibility {
-    PUBLIC
-    PRIVATE
+  input UserRatingInput {
+    ratedBy: ID!
+    criteria: String!
+    score: Int!
+    comment: String
   }
+
+  input UserSettingsInput {
+    # General Settings
+    language: Language
+    theme: Theme
+    notificationEnabled: Boolean
+    soundEnabled: Boolean
+    autoSaveInterval: Int
+
+    # Privacy Settings
+    profileVisibility: Visibility
+    contactInfoVisibility: Visibility
+    locationSharingEnabled: Boolean
+    activityTrackingEnabled: Boolean
+    dataSharingEnabled: Boolean
+    dataRetentionPeriod: Int # in days
+    # Security Settings
+    twoFactorAuthEnabled: Boolean
+    dataEncryptionEnabled: Boolean
+  }
+
   input CreateUnverifiedUserInput {
     username: String!
     email: String!
@@ -153,46 +178,16 @@ const typeDefs = gql`
     id: String!
   }
 
-  input CreateUserProfileInput {
-    firstname: String!
-    lastname: String!
-    phoneNumber: String!
-    address: String!
-  }
-
-  input UpdateUserProfileInput {
-    firstname: String
-    lastname: String
-    phoneInt: String
-    address: String
-  }
-
-  input CreateUserRatingInput {
-    userId: ID!
-    ratedBy: ID!
-    criteria: String!
-    score: Int!
-    comment: String
-  }
-
-  input UpdateUserSettingsInput {
-    # General Settings
-    language: Language
-    theme: Theme
-    notificationEnabled: Boolean
-    soundEnabled: Boolean
-    autoSaveInterval: Int
-
-    # Privacy Settings
-    profileVisibility: Visibility
-    contactInfoVisibility: Visibility
-    locationSharingEnabled: Boolean
-    activityTrackingEnabled: Boolean
-    dataSharingEnabled: Boolean
-    dataRetentionPeriod: Int # in days
-    # Security Settings
-    twoFactorAuthEnabled: Boolean
-    dataEncryptionEnabled: Boolean
+  input UpdateUserInput {
+    username: String
+    email: String
+    password: String
+    type: Type
+    verificationCode: String
+    verified: Boolean
+    profile: UserProfileInput
+    rating: [UserRatingInput]
+    settings: UserSettingsInput
   }
 
   extend type Mutation {
@@ -205,16 +200,7 @@ const typeDefs = gql`
     refreshToken(RefreshTokenInput: RefreshTokenInput!): RefreshToken!
     forgotPassword(ForgotPasswordInput: ForgotPasswordInput!): String!
     resetPassword(ResetPasswordInput: ResetPasswordInput!): String!
-
-    #user profile mutations
-    createUserProfile(CreateUserProfileInput: CreateUserProfileInput!): UserProfile
-    updateUserProfile(UpdateUserProfileInput: UpdateUserProfileInput!): String
-
-    #user rating mutations
-    createUserRating(CreateUserRatingInput: CreateUserRatingInput!): UserRating
-
-    #user settings mutations
-    updateUserSettings(UpdateUserSettingsInput: UpdateUserSettingsInput!): UserSettings
+    updateUser(UpdateUserInput: UpdateUserInput!): VerifiedUser
   }
 `;
 
