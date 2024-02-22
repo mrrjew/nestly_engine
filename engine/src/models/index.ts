@@ -14,7 +14,7 @@ import ApartmentBooking from './booking/booking';
 export interface IModels {
   User: typeof User;
   Apartment: typeof Apartment;
-  ApartmentBooking: typeof ApartmentBooking
+  ApartmentBooking: typeof ApartmentBooking;
 }
 
 export default async function initDB(config: Config['db']): Promise<IModels> {

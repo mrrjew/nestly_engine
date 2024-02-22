@@ -37,7 +37,7 @@ export const generateQuery = (filters?: any, sort?: any, pagination?: any, searc
 
   //apply pagination if provided
   let { limit, offset } = pagination;
-  limit = limit || 10;
+  limit = limit || 10 ;
   offset = offset || 0;
 
   return {

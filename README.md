@@ -57,7 +57,7 @@ Before running the project, make sure you have the following installed:
 3. Install dependencies for engine:
 
 ```bash
-  cd ../engine
+  cd engine
   npm install
 ```
 

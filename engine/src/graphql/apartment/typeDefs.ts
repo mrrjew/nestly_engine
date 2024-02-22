@@ -2,8 +2,9 @@ import gql from 'graphql-tag';
 
 const typeDefs = gql`
   extend type Query {
+    getApartment(apartmentId: ID!): Apartment
     getAllOwnerApartments: [Apartment]
-    getAllApartments(GetAllApartmentsInput: GetAllApartmentsInput!): [Apartment]
+    getAllApartments(GetAllApartmentsInput: GetAllApartmentsInput): [Apartment]
   }
 
   type Apartment {
@@ -72,7 +73,7 @@ const typeDefs = gql`
     amenities: [String]
     price: Float
     available: Boolean
-    images: [String]
+    images: [String!]
     reviews: [ApartmentReviewsInput]
   }
 

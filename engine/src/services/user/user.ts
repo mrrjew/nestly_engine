@@ -109,7 +109,7 @@ export default class UserService extends IService {
 
     user.password = newPassword;
 
-    await user.save();
+    await user.save();  
 
     const message = 'Successfully updated password';
     return message;

@@ -9,6 +9,9 @@ export default function (appContext: IAppContext) {
       },
     },
     Query: {
+      getApartment: async function(_:any,{apartmentId},context:any){
+        return await appContext.models.Apartment.findById(apartmentId) 
+      },
       getAllOwnerApartments: async function (_: any, {}, context: any) {
         const apartments = await appContext.services.ApartmentService.getAllOwnerApartments(context.user._id);
         return apartments;

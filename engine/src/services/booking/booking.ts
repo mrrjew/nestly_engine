@@ -11,15 +11,25 @@ export default class ApartmentBookingService extends IService {
     try {
       await this.authenticate_user(userId);
 
-    const { filters,sort,pagination,search } = GetApartmentBookingInput;
+      const { apartment, pagination } = GetApartmentBookingInput;
 
-    const {query,sortCriteria,limit,offset} = generateQuery(filters,sort,pagination,search )
-  
-    const bookings = this.models.ApartmentBooking.find(query).sort(sortCriteria).skip(offset).limit(limit)
-  
-    return bookings
-    }catch(e){
-      throw new Error(`Error getting user's aparment bookings`)
+      const { limit, offset } = generateQuery({}, {}, pagination);
+
+      console.log(apartment);
+      const bookings = await this.models.ApartmentBooking.aggregate([
+        // { $match: { apartment: apartment } },
+        {
+          $group: {
+            _id: '$status',
+            bookings: { $push: '$$ROOT' },
+          },
+        },
+        { $skip: offset },
+        { $limit: limit },
+      ]);
+      return bookings;
+    } catch (e) {
+      throw new Error(`Error getting user's aparment bookings: ${e}`);
     }
   }
 
@@ -28,11 +38,7 @@ export default class ApartmentBookingService extends IService {
     userId: any
   ): Promise<IApartmentBooking> {
     try {
-      const user = await this.models.User.findOne({ _id: userId });
-
-      if (!user) {
-        throw new Error('User not authenticated');
-      }
+      await this.authenticate_user(userId);
 
       const { apartment } = CreateApartmentBookingInput;
 
@@ -48,11 +54,7 @@ export default class ApartmentBookingService extends IService {
 
   async updateApartmentBooking(UpdateApartmentBookingInput: any, userId: any): Promise<IApartmentBooking> {
     try {
-      const user = await this.models.User.findOne({ _id: userId });
-
-      if (!user) {
-        throw new Error('User not authenticated');
-      }
+      await this.authenticate_user(userId);
 
       const { booking } = UpdateApartmentBookingInput;
 
@@ -68,15 +70,13 @@ export default class ApartmentBookingService extends IService {
 
   async deleteApartmentBooking(bookingId: any, userId: any) {
     try {
-      const user = await this.models.User.findOne({ _id: userId });
-
-      if (!user) {
-        throw new Error('User not authenticated');
-      }
+      await this.authenticate_user(userId);
 
       const _booking = await this.authenticate_booking(bookingId);
 
       await _booking.deleteOne();
+
+      return 'deleted booking successfully';
     } catch (e) {
       throw new Error(`Error deleting user: ${e}`);
     }
