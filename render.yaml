@@ -1,0 +1,8 @@
+services:
+  - name: file-upload-server
+    type:web
+    buildCommand: cd file_upload_server && npm install
+    startCommand: npm start
+    env:
+      - key: MONGO_URI
+        fromDatabase: mongodb
