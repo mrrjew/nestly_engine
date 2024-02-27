@@ -1,12 +1,12 @@
 import { IAppContext } from '../types/app';
 
 // apartment
-import ApartmentService from './apartment/apartment';
+import ApartmentService from './apartment';
 
 //user
-import UserService from './user/user';
-import UserSessionService from './user/session';
-import ApartmentBookingService from './booking/booking';
+import UserService from './user';
+import UserSessionService from './session';
+import ApartmentBookingService from './booking';
 
 export interface IServices {
   UserService: UserService;

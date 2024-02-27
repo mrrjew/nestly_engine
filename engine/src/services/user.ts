@@ -1,9 +1,8 @@
 import { v4 } from 'uuid';
-import { Config } from '../../config';
-import IService, { IAppContext } from '../../types/app';
-import { IUserAuth, IUserInput, IUserResetPasswordInput, IUserVerificationInput } from '../../types/user/user';
-import sendEmail from '../../utils/mailer';
-import log from '../../utils/log';
+import IService, { IAppContext } from '../types/app';
+import { IUserAuth, IUserInput, IUserResetPasswordInput, IUserVerificationInput } from '../types/user/user';
+import sendEmail from '../utils/mailer';
+import log from '../utils/log';
 
 export default class UserService extends IService {
   constructor(context: IAppContext) {
@@ -78,7 +77,6 @@ export default class UserService extends IService {
     const passwordResetCode = v4();
 
     user.passwordResetCode = passwordResetCode;
-    console.log(passwordResetCode);
 
     await user.save();
 

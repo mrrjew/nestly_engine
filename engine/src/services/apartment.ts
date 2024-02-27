@@ -1,9 +1,7 @@
 import { Types } from 'mongoose';
-import { IApartment } from '../../types/apartment/apartment';
-import IService, { IAppContext } from '../../types/app';
-import { join, parse } from 'path';
-import { createWriteStream } from 'fs';
-import { generateQuery } from '../../utils/query';
+import { IApartment } from '../types/apartment';
+import IService, { IAppContext } from '../types/app';
+import { generateQuery } from '../utils/query';
 
 export default class ApartmentService extends IService {
   constructor(props: IAppContext) {
@@ -31,40 +29,42 @@ export default class ApartmentService extends IService {
   async createApartment(CreateApartmentInput: IApartment, userId: any, imageUrls?: any) {
     try {
       const user = await this.authenticate_user(userId);
-
+      
       if (user.type !== 'OWNER' && !CreateApartmentInput['reviews']) {
         throw new Error(`Renters cannot create apartments`);
       }
-
       const apartment = await this.models.Apartment.create({ owner: userId, ...CreateApartmentInput });
-
       return apartment;
     } catch (e) {
       throw new Error(`Error creating apartment`);
     }
   }
 
-  // async uploadImages(UploadImagesInput: any) {
-  //   try {
-  //     let { filename, createReadStream } = await UploadImagesInput.upload;
+  async uploadImages(useId:any,userId:any){
+    try {
 
-  //     const stream = createReadStream();
+    await this.authenticate_user(userId);
+    const apartment = await this.authenticate_apartment(useId)
 
-  //     let { ext, name } = parse(filename);
+    // Images are from a standalone file upload engine
+    const images = await this.models.Image.find({useId})
 
-  //     name = name.replace(/([^a-z0-9 ]+)/gi, '_').replace(' ', '_');
+    console.log(images)
+    let _apartment:any
+    if(images){
+      _apartment = await apartment.updateOne({
+        $set : {...images}
+      })
+      await apartment.save()
+      
+      return 'image uploaded successfully'
+    }
+    }catch(e){
+      throw new Error(`Error uploading images`)
+    }
+  
+  }
 
-  //     let serverFile = join(__dirname, `../../uploads/${name}-${Date.now()}${ext}`);
-
-  //     const writeStream = createWriteStream(serverFile);
-
-  //     await stream.pipe(writeStream);
-
-  //     serverFile = `${URL}${serverFile.split('uploads')[1]}`;
-  //   } catch (e) {
-  //     throw new Error(`Error uploading images: ${e}`);
-  //   }
-  // }
 
   async updateApartment(UpdateApartmentInput: any, userId: any) {
     try {

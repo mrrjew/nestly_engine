@@ -4,16 +4,10 @@ import { Config } from '.';
 
 const config: Config = {
   app: {
-    name: 'nestly',
+    name: 'nestly-engine',
     port: 80,
     env: 'development',
   },
-  auth: {
-    accessTokenPrivateKey : process.env.ACCESS_TOKEN_PRIVATE_KEY,
-    accessTokenPublicKey : process.env.ACCESS_TOKEN_PUBLIC_KEY,
-    refreshTokenPrivateKey : process.env.REFRESH_TOKEN_PRIVATE_KEY,
-    refreshTokenPublicKey : process.env.REFRESH_TOKEN_PUBLIC_KEY,
-},
   db: {
     uri: process.env.DEV_MONGO_URI || '',
   },
@@ -27,8 +21,8 @@ const config: Config = {
     logger: {
     level: process.env.LOGGER_LEVEL
   },
-  base_url:{
-    url:`http://localhost:800`
+  paystack: {
+    secret_key:process.env.PAYSTACK_TEST_SECRET_KEY || ''
   }
   
 };

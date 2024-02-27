@@ -7,6 +7,12 @@ const typeDefs = gql`
     getAllApartments(GetAllApartmentsInput: GetAllApartmentsInput): [Apartment]
   }
 
+  type Image {
+    useId:ID!
+    filename:String!
+    path:String!
+  }
+
   type Apartment {
     _id: ID!
     owner: ID!
@@ -18,7 +24,7 @@ const typeDefs = gql`
     amenities: [String]!
     price: Float!
     available: Boolean!
-    Images: [String]
+    Images: [Image]
     reviews: [ApartmentReviews]
   }
 
@@ -73,7 +79,6 @@ const typeDefs = gql`
     amenities: [String]
     price: Float
     available: Boolean
-    images: [String!]
     reviews: [ApartmentReviewsInput]
   }
 
@@ -97,6 +102,7 @@ const typeDefs = gql`
 
   extend type Mutation {
     createApartment(CreateApartmentInput: CreateApartmentInput!): Apartment
+    uploadImages(useId:ID!): String
     updateApartment(UpdateApartmentInput: UpdateApartmentInput!): Apartment
     deleteApartment(DeleteApartmentInput: DeleteApartmentInput!): String
   }

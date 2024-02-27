@@ -6,15 +6,19 @@ import log from '../utils/log';
 import User from './user/user';
 
 //apartment
-import Apartment from './apartment/apartment';
+import Apartment from './apartment';
 
 // booking
-import ApartmentBooking from './booking/booking';
+import ApartmentBooking from './booking';
+
+// image upload
+import Image from './image';
 
 export interface IModels {
   User: typeof User;
   Apartment: typeof Apartment;
   ApartmentBooking: typeof ApartmentBooking;
+  Image: typeof Image;
 }
 
 export default async function initDB(config: Config['db']): Promise<IModels> {
@@ -24,12 +28,14 @@ export default async function initDB(config: Config['db']): Promise<IModels> {
 
     await User.createCollection();
     await Apartment.createCollection();
-    await ApartmentBooking.createCollection()
+    await ApartmentBooking.createCollection();
+    await Image.createCollection();
 
     return {
       User,
       Apartment,
-      ApartmentBooking
+      ApartmentBooking,
+      Image
     };
   } catch (e) {
     throw new Error(`Error while connecting to database : ${e}`);

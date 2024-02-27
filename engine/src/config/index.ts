@@ -12,12 +12,6 @@ export interface Config {
   db: {
     uri: string;
   };
-  auth: {
-    accessTokenPrivateKey : string
-    accessTokenPublicKey : string
-    refreshTokenPrivateKey : string
-    refreshTokenPublicKey : string
-};
   smtp: {
     user: string;
     pass: string;
@@ -28,8 +22,8 @@ export interface Config {
   logger: {
     level: string;
   };
-  base_url : {
-    url: string
+  paystack: {
+    secret_key:string
   }
 }
 

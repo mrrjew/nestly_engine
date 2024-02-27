@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IApartmentBookingDocument } from "../../types/booking/booking";
+import { IApartmentBookingDocument } from "../types/booking";
 
 
 const bookingSchema = new Schema<IApartmentBookingDocument>({

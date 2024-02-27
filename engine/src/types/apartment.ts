@@ -1,5 +1,5 @@
 import { Document, Model, Types } from "mongoose";
-import { IUserDocument } from "../user/user";
+import { IUserDocument } from "./user/user";
 
 export interface IApartmentReview {
   user: Types.ObjectId;
@@ -8,12 +8,11 @@ export interface IApartmentReview {
   comment: string;
 }
 
-export interface IApartmentImage {
-  url: string
-  apartment: Types.ObjectId
+export interface IImage {
+  useId:Types.ObjectId
+  filename: string
+  path:string
 }
-
-
 
 export interface IApartment {
   owner: Types.ObjectId;
@@ -25,7 +24,7 @@ export interface IApartment {
   amenities: string[]
   price: number
   available: boolean
-  images?: IApartmentImage[]
+  images?: IImage[]
   reviews?: IApartmentReview
 }
 

@@ -30,6 +30,10 @@ export default function (appContext: IAppContext) {
         );
         return apartment;
       },
+      uploadImages: async function (_:any,args:any,context:any) {
+        const message = await appContext.services.ApartmentService.uploadImages(args.useId,context.user._id)
+        return message
+      },
       updateApartment: async function (_: any, args: any, context: any) {
         const apartment = await appContext.services.ApartmentService.updateApartment(
           args.UpdateApartmentInput,

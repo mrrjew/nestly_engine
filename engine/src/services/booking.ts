@@ -1,6 +1,6 @@
-import IService, { IAppContext } from '../../types/app';
-import { IApartmentBooking, IApartmentBookingInput } from '../../types/booking/booking';
-import { generateQuery } from '../../utils/query';
+import IService, { IAppContext } from '../types/app';
+import { IApartmentBooking, IApartmentBookingInput } from '../types/booking';
+import { generateQuery } from '../utils/query';
 
 export default class ApartmentBookingService extends IService {
   constructor(props: IAppContext) {
@@ -15,9 +15,8 @@ export default class ApartmentBookingService extends IService {
 
       const { limit, offset } = generateQuery({}, {}, pagination);
 
-      console.log(apartment);
       const bookings = await this.models.ApartmentBooking.aggregate([
-        // { $match: { apartment: apartment } },
+        { $match: { apartment: apartment } },
         {
           $group: {
             _id: '$status',

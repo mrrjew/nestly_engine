@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IApartmentDocument} from '../../types/apartment/apartment';
+import { IApartmentDocument} from '../types/apartment';
 
 const apartmentSchema = new Schema<IApartmentDocument>(
   {
@@ -17,7 +17,11 @@ const apartmentSchema = new Schema<IApartmentDocument>(
       comment: String,
     }],
     images: [
-      {url: { type: String}}
+      {
+        useId: { type: Schema.Types.ObjectId},
+        filename: {type:String, required:true},
+        paht: {type:String, required:true}
+      }
     ],
   },
   { timestamps: true }

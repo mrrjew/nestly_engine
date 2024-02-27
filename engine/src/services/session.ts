@@ -1,7 +1,7 @@
-import { verifyJwt } from '../../utils/token';
-import { findSessionById, signAccessToken, signRefreshToken } from '../../utils/session';
+import { verifyJwt } from '../utils/token';
+import { findSessionById, signAccessToken, signRefreshToken } from '../utils/session';
 
-import IService, { IAppContext } from "../../types/app";
+import IService, { IAppContext } from "../types/app";
 
 export default class UserSessionService extends IService{
     constructor(props:IAppContext){
