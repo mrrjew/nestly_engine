@@ -8,6 +8,9 @@ import UserService from './user';
 import UserSessionService from './session';
 import ApartmentBookingService from './booking';
 
+//payment
+import PaymentService from './payment';
+
 export interface IServices {
   UserService: UserService;
   UserSessionService:UserSessionService;
@@ -15,6 +18,7 @@ export interface IServices {
   // apartment
   ApartmentService: ApartmentService
   ApartmentBookingService: ApartmentBookingService
+  PaymentService: PaymentService
 }
 
 export default async function initServices(context: IAppContext): Promise<IServices> {
@@ -22,6 +26,7 @@ export default async function initServices(context: IAppContext): Promise<IServi
     UserService: new UserService(context),
     UserSessionService: new UserSessionService(context),
     ApartmentService: new ApartmentService(context),
-    ApartmentBookingService: new ApartmentBookingService(context)
+    ApartmentBookingService: new ApartmentBookingService(context),
+    PaymentService: new PaymentService(context)
   };
 }

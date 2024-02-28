@@ -46,6 +46,10 @@ const userSchema = new Schema<IUserDocument>(
       twoFactorAuthEnabled: { type: Boolean, default: false },
       dataEncryptionEnabled: { type: Boolean, default: false },
     },
+    ownerPayment: {
+      accountNumber : {type:String},
+      bankCode: {type:String}
+    }
   },
   {
     timestamps: true,

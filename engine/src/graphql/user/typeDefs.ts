@@ -9,6 +9,11 @@ const typeDefs = gql`
     getAllVerifiedUsers: [VerifiedUser]
   }
 
+  type OwnerPaymentDetails {
+    accountNumber:String!
+    bankCode:String!
+  }
+
   type VerifiedUser @key(fields: _id) {
     _id: ID!
     username: String!
@@ -20,6 +25,7 @@ const typeDefs = gql`
     profile: UserProfile
     rating: [UserRating]
     settings: UserSettings
+    ownerPayment:OwnerPaymentDetails
   }
 
   type UnVerifiedUser @key(fields: _id) {
@@ -178,6 +184,11 @@ const typeDefs = gql`
     id: String!
   }
 
+  input OwnerPaymentDetailsInput {
+    accountNumber:String!
+    bankCode:String!
+  }
+
   input UpdateUserInput {
     username: String
     email: String
@@ -188,6 +199,7 @@ const typeDefs = gql`
     profile: UserProfileInput
     rating: [UserRatingInput]
     settings: UserSettingsInput
+    ownerPayment:OwnerPaymentDetailsInput
   }
 
   extend type Mutation {

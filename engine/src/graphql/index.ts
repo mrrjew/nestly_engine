@@ -4,6 +4,7 @@ import { IAppContext } from '../types/app';
 import userSchema from './user';
 import apartmentSchema from './apartment';
 import bookingSchema from './booking';
+import paymentSchema from './payment';
 
 interface MyContext {
   user?: any;
@@ -14,7 +15,8 @@ export default function initGraph(appContext: IAppContext): ApolloServer {
     [
       userSchema(appContext),
       apartmentSchema(appContext),
-      bookingSchema(appContext)
+      bookingSchema(appContext),
+      paymentSchema(appContext)
     ]
     );
 

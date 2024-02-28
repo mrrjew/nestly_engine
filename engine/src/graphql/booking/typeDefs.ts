@@ -19,6 +19,8 @@ const typeDefs = gql`
   type ApartmentBooking {
     apartment: ID
     startDate: Date
+    transactionId: String
+    reference:String
     endDate: Date
     status: BookingStatus
     notes: String
@@ -36,6 +38,8 @@ const typeDefs = gql`
 
   input CreateApartmentBookingInput {
     apartment: ID!
+    transactionId: String
+    reference:String
     startDate: Date!
     endDate: Date!
     status: BookingStatus
@@ -44,6 +48,8 @@ const typeDefs = gql`
 
   input UpdateApartmentBookingInput {
     bookingId: ID!
+    transactionId: String
+    reference:String
     startDate: Date
     endDate: Date
     status: BookingStatus

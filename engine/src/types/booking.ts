@@ -3,6 +3,9 @@ import { Types,Document } from "mongoose"
 export interface IApartmentBooking {
     user: Types.ObjectId
     apartment: Types.ObjectId
+    transactionId?:string
+    reference?:string
+    amount?:string
     startDate: Date,
     endDate: Date,
     status: 'CONFIRMED' | 'PENDING' | 'CANCELED'
@@ -12,6 +15,9 @@ export interface IApartmentBooking {
   export interface IApartmentBookingInput {
     user: Types.ObjectId
     apartment: Types.ObjectId
+    transactionId?:string
+    reference?:string
+    amount?:string
     startDate: Date,
     endDate: Date,
     status: string

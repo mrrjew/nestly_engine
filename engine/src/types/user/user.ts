@@ -15,6 +15,11 @@ export interface IUserProfileInput {
   address: string;
 }
 
+export interface IOwnerPaymentDetails {
+  accountNumber:string
+  bankCode:string
+}
+
 export interface IUserSettings{
   userId:Types.ObjectId
   // General Settings
@@ -60,6 +65,7 @@ export interface IUser {
   profile?:IUserProfile;
   settings?:IUserSettings;
   rating?:IUserRating[];
+  ownerPayment?:IOwnerPaymentDetails
 }
 
 export interface IUserAuth {
