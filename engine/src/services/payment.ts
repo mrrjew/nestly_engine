@@ -131,7 +131,6 @@ export default class PaymentService extends IService{
             "amount": ((95/100) * Number(amount)),
             "recipient":recipient_code
         }
-        console.log(data)
 
         const _response = await axios({
             method:'post',
@@ -141,11 +140,9 @@ export default class PaymentService extends IService{
                 'Content-Type':'application/json'
             },
             data : data
-        }).then(response => {return response.data}).catch(err => console.log(err))
+        })
 
-        //finalizing transfer
-
-    
+       return _response.data
         }catch(e){
             throw new Error(`Error paying owner of apartment: ${e}`)
         }

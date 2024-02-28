@@ -57,6 +57,7 @@ const typeDefs = gql`
   }
 
   type UserProfile {
+    avatar:String
     firstname: String!
     lastname: String!
     phoneNumber: String!
@@ -111,6 +112,7 @@ const typeDefs = gql`
   }
 
   input UserProfileInput {
+    avatar:String
     firstname: String!
     lastname: String!
     phoneNumber: String!

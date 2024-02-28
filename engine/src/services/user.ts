@@ -161,6 +161,29 @@ export default class UserService extends IService {
     }
   }
   
+  //update profile picture
+  async updateProfilePicture(userId:any){
+    const user = await this.authenticate_user(userId)
+
+    // avatar is from standalone file upload server
+    const avatar = await this.models.Image.findOne({useId:user._id})
+
+    if(!avatar){
+      throw new Error(`No avatar found for user`)
+    }
+
+    const {path} = avatar
+
+    await user.updateOne({
+      $set : {
+        profile : {avatar:path}
+      }
+    })
+
+    await user.save()
+
+    return avatar
+  }
 
   // deletes user account
   async deleteUser(id: any) {

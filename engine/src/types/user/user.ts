@@ -9,6 +9,7 @@ export interface IUserProfile {
   address: string;
 }
 export interface IUserProfileInput {
+  avatar:string
   firstname: string;
   lastname: string;
   phoneNumber: string;

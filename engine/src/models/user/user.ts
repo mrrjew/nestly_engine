@@ -15,6 +15,7 @@ const userSchema = new Schema<IUserDocument>(
     passwordResetCode: { type: String },
     verified: { type: Boolean, required: true, default: false },
     profile: {
+      avatar: {type:String},
       firstname: { type: String },
       lastname: { type: String },
       phoneNumber: { type: String },
