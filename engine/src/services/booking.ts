@@ -1,6 +1,5 @@
 import IService, { IAppContext } from '../types/app';
 import { IApartmentBooking, IApartmentBookingInput } from '../types/booking';
-import { generateQuery } from '../utils/query';
 
 export default class ApartmentBookingService extends IService {
   constructor(props: IAppContext) {
@@ -11,24 +10,13 @@ export default class ApartmentBookingService extends IService {
     try {
       await this.authenticate_user(userId);
 
-      const { apartment, pagination } = GetApartmentBookingInput;
+      const { apartment} = GetApartmentBookingInput;
 
-      const { limit, offset } = generateQuery({}, {}, pagination);
+      const booking = await this.models.ApartmentBooking.findOne({apartment})
 
-      const bookings = await this.models.ApartmentBooking.aggregate([
-        { $match: { apartment: apartment } },
-        {
-          $group: {
-            _id: '$status',
-            bookings: { $push: '$$ROOT' },
-          },
-        },
-        { $skip: offset },
-        { $limit: limit },
-      ]);
-      return bookings;
+      return booking;
     } catch (e) {
-      throw new Error(`Error getting user's aparment bookings: ${e}`);
+      throw new Error(`Error getting user's aparment booking: ${e}`);
     }
   }
 
@@ -47,7 +35,7 @@ export default class ApartmentBookingService extends IService {
 
       return booking;
     } catch (e) {
-      throw new Error(`Error creating booking`);
+      throw new Error(`Error creating booking: ${e}`);
     }
   }
 

@@ -2,12 +2,7 @@ import { gql } from 'graphql-tag';
 
 const typeDefs = gql`
   extend type Query {
-    getApartmentBooking(GetApartmentBookingInput: GetApartmentBookingInput!): [AllApartmentBookings]
-  }
-
-  type AllApartmentBookings {
-    _id: String
-    bookings: [ApartmentBooking]
+    getApartmentBooking(GetApartmentBookingInput: GetApartmentBookingInput!): ApartmentBooking  
   }
 
   enum BookingStatus {
@@ -17,9 +12,11 @@ const typeDefs = gql`
   }
 
   type ApartmentBooking {
+    _id:ID
     apartment: ID
     startDate: Date
     transactionId: String
+    amount: String
     reference:String
     endDate: Date
     status: BookingStatus
@@ -33,15 +30,15 @@ const typeDefs = gql`
 
   input GetApartmentBookingInput {
     apartment: ID!
-    pagination: BookingPaginationInput!
   }
 
   input CreateApartmentBookingInput {
     apartment: ID!
     transactionId: String
+    amount: String
     reference:String
-    startDate: Date!
-    endDate: Date!
+    startDate: Date
+    endDate: Date
     status: BookingStatus
     notes: String
   }
@@ -49,6 +46,7 @@ const typeDefs = gql`
   input UpdateApartmentBookingInput {
     bookingId: ID!
     transactionId: String
+    amount: String
     reference:String
     startDate: Date
     endDate: Date

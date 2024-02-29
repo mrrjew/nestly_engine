@@ -24,7 +24,7 @@ const typeDefs = gql`
     amenities: [String]!
     price: Float!
     available: Boolean!
-    Images: [Image]
+    images: [Image]
     reviews: [ApartmentReviews]
   }
 

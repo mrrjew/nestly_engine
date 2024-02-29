@@ -47,20 +47,21 @@ export default class ApartmentService extends IService {
     const apartment = await this.authenticate_apartment(useId)
 
     // Images are from a standalone file upload engine
-    const images = await this.models.Image.find({useId})
+    const apartmentImages = await this.models.Image.find({useId}).limit(5)
 
-    console.log(images)
-    let _apartment:any
+    const images = [...apartmentImages].reverse()
+
+    
     if(images){
-      _apartment = await apartment.updateOne({
-        $set : {...images}
-      })
+      await apartment.updateOne({
+        $set : {images}
+      },{new:true,upsert:true})
       await apartment.save()
       
-      return 'image uploaded successfully'
+      return 'images uploaded successfully'
     }
     }catch(e){
-      throw new Error(`Error uploading images`)
+      throw new Error(`Error uploading images: ${e}`)
     }
   
   }

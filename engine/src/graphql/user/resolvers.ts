@@ -102,6 +102,12 @@ export default function (appContext: IAppContext) {
         const user = await appContext.services.UserService.updateUser(args.UpdateUserInput,context.user._id)
         return user
       },
+      updateProfilePicture: async function(_:any,args:any,context:any){
+        const avatar = await appContext.services.UserService.updateProfilePicture(
+          context.user._id
+        )
+        return avatar
+      },
       createUserSession: async function (_: any, args: any) {
         const token = await appContext.services.UserSessionService.createUserSession(args.CreateUserSessionInput);
         return token;

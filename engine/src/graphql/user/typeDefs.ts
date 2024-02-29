@@ -58,10 +58,10 @@ const typeDefs = gql`
 
   type UserProfile {
     avatar:String
-    firstname: String!
-    lastname: String!
-    phoneNumber: String!
-    address: String!
+    firstname: String
+    lastname: String
+    phoneNumber: String
+    address: String
   }
 
   type UserRating {
@@ -215,6 +215,7 @@ const typeDefs = gql`
     forgotPassword(ForgotPasswordInput: ForgotPasswordInput!): String!
     resetPassword(ResetPasswordInput: ResetPasswordInput!): String!
     updateUser(UpdateUserInput: UpdateUserInput!): VerifiedUser
+    updateProfilePicture:JSON
   }
 `;
 

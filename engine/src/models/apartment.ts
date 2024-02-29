@@ -20,7 +20,7 @@ const apartmentSchema = new Schema<IApartmentDocument>(
       {
         useId: { type: Schema.Types.ObjectId},
         filename: {type:String, required:true},
-        paht: {type:String, required:true}
+        path: {type:String, required:true}
       }
     ],
   },

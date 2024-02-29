@@ -3,10 +3,9 @@
 import { Config } from "../config";
 import express from "express";
 import { IAppContext } from "../types/app";
-import cors, { CorsRequest } from "cors";
+import cors from "cors";
 import { json } from "body-parser";
-import colors from 'colors'
-import { expressMiddleware } from "@apollo/server/express4";
+import { expressMiddleware } from "@apollo/server/express4" ;
 
 import initDb from "../models";
 import initServices from "../services";
@@ -33,12 +32,12 @@ export default async function start(config: Config) {
     await graph.start()
 
     //server health check
-    app.use("/healthcheck", (req, res) => {
+    app.use("/healthcheck", (_, res) => {
       res.status(200).send("All is green!!!");
     });
 
+    
     //apollo server express middleware
-
     app.use(
       "/graphql",
       cors<cors.CorsRequest>(),
