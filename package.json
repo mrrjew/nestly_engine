@@ -5,7 +5,6 @@
   "repository": "https://github.com/jewtechx/nestly.git",
   "author": "jewtechx <jklarbi_danquah@st.ug.edu.gh>",
   "license": "MIT",
-  "type":"module",
   "dependencies": {
     "@apollo/datasource-rest": "^6.2.2",
     "@apollo/server": "^4.7.2",
