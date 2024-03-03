@@ -3,12 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyJwt = exports.signJwt = void 0;
 const tslib_1 = require("tslib");
 const jsonwebtoken_1 = tslib_1.__importDefault(require("jsonwebtoken"));
-const fs_1 = tslib_1.__importDefault(require("fs"));
-const path_1 = tslib_1.__importDefault(require("path"));
-const privateKeyPath = path_1.default.resolve(__dirname, '../../privateKey.pem');
-const publicKeyPath = path_1.default.resolve(__dirname, '../../publicKey.pem');
-const privateKey = fs_1.default.readFileSync(privateKeyPath);
-const publicKey = fs_1.default.readFileSync(publicKeyPath);
+const privateKey = process.env.JWT_PRIVATE_KEY;
+const publicKey = process.env.JWT_PUBLIC_KEY;
 function signJwt(object, options) {
     return jsonwebtoken_1.default.sign(object, privateKey, Object.assign(Object.assign({}, (options && options)), { algorithm: 'RS256' }));
 }
