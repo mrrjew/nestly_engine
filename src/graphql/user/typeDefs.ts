@@ -14,7 +14,7 @@ const typeDefs = gql`
     bankCode:String!
   }
 
-  type VerifiedUser @key(fields: _id) {
+  type VerifiedUser {
     _id: ID!
     username: String!
     email: String!
@@ -28,7 +28,7 @@ const typeDefs = gql`
     ownerPayment:OwnerPaymentDetails
   }
 
-  type UnVerifiedUser @key(fields: _id) {
+  type UnVerifiedUser {
     _id: ID!
     username: String!
     email: String!
