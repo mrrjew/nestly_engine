@@ -2,11 +2,8 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import path from 'path';
 
-const privateKeyPath = path.resolve(__dirname, '../../privateKey.pem');
-const publicKeyPath = path.resolve(__dirname, '../../publicKey.pem');
-
-const privateKey = fs.readFileSync(privateKeyPath);
-const publicKey = fs.readFileSync(publicKeyPath);
+const privateKey = process.env.JWT_PRIVATE_KEY
+const publicKey = process.env.JWT_PUBLIC_KEY
 
 export function signJwt(object: object, options?: jwt.SignOptions): string {
   return jwt.sign(object, privateKey, {
