@@ -59,7 +59,7 @@
   },
   "scripts": {
     "build": "tsc --outDir dist",
-    "prod": "npm run build & node dist/index.js",
+    "prod": "node dist/index.js",
     "dev": "nodemon src/index.ts",
     "lint": "eslint . --fix",
     "prettier": "prettier src --fix"
