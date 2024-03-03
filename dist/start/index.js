@@ -9,6 +9,7 @@ const models_1 = tslib_1.__importDefault(require("../models"));
 const services_1 = tslib_1.__importDefault(require("../services"));
 const log_1 = tslib_1.__importDefault(require("../utils/log"));
 const graphql_1 = tslib_1.__importDefault(require("../graphql"));
+const context_1 = require("../middlewares/context");
 function start(config) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         try {
@@ -24,11 +25,13 @@ function start(config) {
             const graph = (0, graphql_1.default)(appContext);
             yield graph.start();
             //server health check
-            app.use("/healthcheck", (req, res) => {
+            app.use("/healthcheck", (_, res) => {
                 res.status(200).send("All is green!!!");
             });
             //apollo server express middleware
-            app.use("/graphql", (0, cors_1.default)(), (0, body_parser_1.json)(), (0, express4_1.expressMiddleware)(graph));
+            app.use("/graphql", (0, cors_1.default)(), (0, body_parser_1.json)(), (0, express4_1.expressMiddleware)(graph, {
+                context: context_1.setContext,
+            }));
             app.listen(config.app.port, () => {
                 log_1.default.info(`Server ready at http://localhost:${config.app.port}/graphql`);
             });

@@ -5,15 +5,9 @@ const dotenv_1 = tslib_1.__importDefault(require("dotenv"));
 dotenv_1.default.config();
 const config = {
     app: {
-        name: 'nestly',
-        port: 800,
+        name: 'nestly-engine',
+        port: 80,
         env: 'development',
-    },
-    auth: {
-        accessTokenPrivateKey: process.env.ACCESS_TOKEN_PRIVATE_KEY,
-        accessTokenPublicKey: process.env.ACCESS_TOKEN_PUBLIC_KEY,
-        refreshTokenPrivateKey: process.env.REFRESH_TOKEN_PRIVATE_KEY,
-        refreshTokenPublicKey: process.env.REFRESH_TOKEN_PUBLIC_KEY,
     },
     db: {
         uri: process.env.DEV_MONGO_URI || '',
@@ -28,6 +22,9 @@ const config = {
     logger: {
         level: process.env.LOGGER_LEVEL
     },
+    paystack: {
+        secret_key: process.env.PAYSTACK_TEST_SECRET_KEY || ''
+    }
 };
 exports.default = config;
 //# sourceMappingURL=development.js.map
