@@ -18,11 +18,15 @@ const config: Config = {
     port: process.env.DEV_MAIL_PORT ,
     secure: process.env.DEV_MAIL_SECURE || false
   },
+  sms:{
+    app_id: process.env.SMS_APP_ID || '',
+    app_secret: process.env.SMS_APP_SECRET || ''
+  },
     logger: {
     level: process.env.LOGGER_LEVEL
   },
   paystack: {
-    secret_key:process.env.PAYSTACK_TEST_SECRET_KEY || ''
+    secret_key:process.env.PAYSTACK_LIVE_SECRET_KEY || ''
   }
   
 };

@@ -1,8 +1,10 @@
 import { v4 } from 'uuid';
 import IService, { IAppContext } from '../types/app';
 import { IUserAuth, IUserInput, IUserResetPasswordInput, IUserVerificationInput } from '../types/user/user';
-import sendEmail from '../utils/mailer';
+import sendphoneNumber from '../utils/mailer';
 import log from '../utils/log';
+import sendSms from '../utils/sms';
+import sendEmail from '../utils/mailer';
 
 export default class UserService extends IService {
   constructor(context: IAppContext) {
@@ -12,18 +14,16 @@ export default class UserService extends IService {
   // registers user
   async registerUser(CreateUnverifiedUserInput: IUserInput): Promise<IUserAuth> {
     try {
-      const _user = await this.models.User.findOne({ email: CreateUnverifiedUserInput.email });
+      const _user = await this.models.User.findOne({ phoneNumber: CreateUnverifiedUserInput.phoneNumber });
       if (_user) throw new Error('User already exists');
 
       const user = new this.models.User({ ...CreateUnverifiedUserInput });
       await user.save();
 
-      await sendEmail({
-        from: 'jwlarbi15@gmail.com',
-        to: user.email,
-        subject: 'Please verify your account',
-        text: `Verification code : ${user.verificationCode}. Id : ${user._id}`,
-      });
+      await sendSms(
+        user.phoneNumber,
+       `This is your nestly verification code : ${user.verificationCode}. Do not share with anyone.`,
+      );
 
       return {
         user,
@@ -60,7 +60,7 @@ export default class UserService extends IService {
     }
   }
 
-  // sends verification code to user's email
+  // sends verification code to user's phoneNumber
   async forgotPassword(ForgotPasswordInput: { email: string }) {
     const { email } = ForgotPasswordInput;
 
@@ -93,7 +93,7 @@ export default class UserService extends IService {
     return message;
   }
 
-  // resets user's password to new password from email
+  // resets user's password to new password from phoneNumber
   async resetPassword(ResetPasswordInput: IUserResetPasswordInput) {
     const { id, passwordResetCode, newPassword } = ResetPasswordInput;
 
@@ -115,9 +115,9 @@ export default class UserService extends IService {
 
   // login user
   async loginUser(LoginUserInput: any) {
-    const { email, password } = LoginUserInput;
+    const { phoneNumber, password } = LoginUserInput;
 
-    const user = await this.models.User.findOne({ email });
+    const user = await this.models.User.findOne({ phoneNumber });
     if (!user) {
       throw new Error('user not found');
     }

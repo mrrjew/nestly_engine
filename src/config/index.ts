@@ -19,6 +19,10 @@ export interface Config {
     port: string;
     secure: boolean | string;
   };
+    sms:{
+    app_id: string,
+    app_secret: string
+  },
   logger: {
     level: string;
   };

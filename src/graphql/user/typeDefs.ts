@@ -10,13 +10,14 @@ const typeDefs = gql`
   }
 
   type OwnerPaymentDetails {
-    accountNumber:String!
-    bankCode:String!
+    accountNumber: String!
+    bankCode: String!
   }
 
   type VerifiedUser {
     _id: ID!
     username: String!
+    phoneNumber: String!
     email: String!
     password: String!
     type: Type!
@@ -25,13 +26,13 @@ const typeDefs = gql`
     profile: UserProfile
     rating: [UserRating]
     settings: UserSettings
-    ownerPayment:OwnerPaymentDetails
+    ownerPayment: OwnerPaymentDetails
   }
 
   type UnVerifiedUser {
     _id: ID!
     username: String!
-    email: String!
+    phoneNumber: String!
     password: String!
     type: Type!
     verified: Boolean
@@ -57,10 +58,9 @@ const typeDefs = gql`
   }
 
   type UserProfile {
-    avatar:String
+    avatar: String
     firstname: String
     lastname: String
-    phoneNumber: String
     address: String
   }
 
@@ -112,10 +112,9 @@ const typeDefs = gql`
   }
 
   input UserProfileInput {
-    avatar:String
+    avatar: String
     firstname: String!
     lastname: String!
-    phoneNumber: String!
     address: String!
   }
 
@@ -148,7 +147,7 @@ const typeDefs = gql`
 
   input CreateUnverifiedUserInput {
     username: String!
-    email: String!
+    phoneNumber: String!
     password: String!
     type: Type!
     verified: Boolean
@@ -170,7 +169,7 @@ const typeDefs = gql`
   }
 
   input CreateUserSessionInput {
-    email: String!
+    phoneNumber: String!
   }
 
   input RefreshTokenInput {
@@ -178,7 +177,7 @@ const typeDefs = gql`
   }
 
   input LoginUserInput {
-    email: String!
+    phoneNumber: String!
     password: String!
   }
 
@@ -187,13 +186,14 @@ const typeDefs = gql`
   }
 
   input OwnerPaymentDetailsInput {
-    accountNumber:String!
-    bankCode:String!
+    accountNumber: String!
+    bankCode: String!
   }
 
   input UpdateUserInput {
     username: String
     email: String
+    phoneNumber: String
     password: String
     type: Type
     verificationCode: String
@@ -201,7 +201,7 @@ const typeDefs = gql`
     profile: UserProfileInput
     rating: [UserRatingInput]
     settings: UserSettingsInput
-    ownerPayment:OwnerPaymentDetailsInput
+    ownerPayment: OwnerPaymentDetailsInput
   }
 
   extend type Mutation {
@@ -215,7 +215,7 @@ const typeDefs = gql`
     forgotPassword(ForgotPasswordInput: ForgotPasswordInput!): String!
     resetPassword(ResetPasswordInput: ResetPasswordInput!): String!
     updateUser(UpdateUserInput: UpdateUserInput!): VerifiedUser
-    updateProfilePicture:JSON
+    updateProfilePicture: JSON
   }
 `;
 

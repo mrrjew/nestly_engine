@@ -18,6 +18,10 @@ const config: Config = {
     port: process.env.MAIL_PORT,
     secure: process.env.MAIL_SECURE || true,
   },
+    sms:{
+    app_id: process.env.SMS_APP_ID || '',
+    app_secret: process.env.SMS_APP_SECRET || ''
+  },
   logger: {
     level: process.env.LOGGER_LEVEL,
   },

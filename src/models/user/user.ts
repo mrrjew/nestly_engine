@@ -8,7 +8,8 @@ export const privateField = ['password', '__v', 'verificationCode', 'passwordRes
 const userSchema = new Schema<IUserDocument>(
   {
     username: { type: String, required: true },
-    email: { type: String, required: true },
+    phoneNumber: { type: String, required: true },
+    email: { type: String},
     password: { type: String, required: true },
     type: { type: String, enum: ['OWNER','RENTER'], required: true },
     verificationCode: { type: String, required: true, default: () => v4() },
@@ -18,7 +19,6 @@ const userSchema = new Schema<IUserDocument>(
       avatar: {type:String},
       firstname: { type: String },
       lastname: { type: String },
-      phoneNumber: { type: String },
       address: { type: String },
     },
     rating: [{

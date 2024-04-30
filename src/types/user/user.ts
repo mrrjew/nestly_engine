@@ -5,7 +5,6 @@ export interface IUserProfile {
   userId: Types.ObjectId;
   firstname: string;
   lastname: string;
-  phoneNumber: string;
   address: string;
 }
 export interface IUserProfileInput {
@@ -57,16 +56,17 @@ export interface IUserRating {
 // main user type
 export interface IUser {
   username: string;
-  email: string;
+  phoneNumber: string;
+  email?: string;
   password: string;
   type: 'OWNER' | 'AGENT' | 'RENTER';
   verificationCode: string;
   passwordResetCode?: string;
   verified: boolean;
-  profile?:IUserProfile;
-  settings?:IUserSettings;
-  rating?:IUserRating[];
-  ownerPayment?:IOwnerPaymentDetails
+  profile?: IUserProfile;
+  settings?: IUserSettings;
+  rating?: IUserRating[];
+  ownerPayment?: IOwnerPaymentDetails;
 }
 
 export interface IUserAuth {
@@ -76,6 +76,7 @@ export interface IUserAuth {
 export interface IUserInput {
   username: string;
   email: string;
+  phoneNumber: string;
   password: string;
   type: string;
   verified: boolean;
